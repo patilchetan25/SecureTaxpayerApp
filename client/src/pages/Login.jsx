@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Login() {
     const navigate = useNavigate();
   const [data, setData] =  useState({
@@ -11,7 +12,6 @@ export default function Login() {
   })
 
 const loginUser = async (e) =>{
-    e.preventDefault();
     e.preventDefault();
     const {email,password} = data;
     try{
@@ -22,6 +22,7 @@ const loginUser = async (e) =>{
             toast.error(data.error);
         }else{
             setData({});
+            localStorage.setItem('user', JSON.stringify(data));
             toast.success('Login Successfull');
             navigate('/');
         }

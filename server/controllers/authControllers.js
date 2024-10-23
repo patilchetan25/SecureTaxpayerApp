@@ -9,7 +9,7 @@ const test = (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password} = req.body;
+        const { name, email, password } = req.body;
         //check if name is entered
         if (!name) {
             return res.json({ error: "Name is required" })
@@ -50,9 +50,9 @@ const loginUser = async (req, res) => {
         if (!match) {
             return res.json({ error: "Password is incorrect" })
         } else {
-            jwt.sign({ email: user.email, id: user._id, name: user.name }, process.env.JWT_SECRET,{},(error,token)=>{
+            jwt.sign({ email: user.email, id: user._id, name: user.name }, process.env.JWT_SECRET, {}, (error, token) => {
                 if (error) throw error
-                res.cookie('token',token).json(user)
+                res.cookie('token', token).json(user)
             })
         }
 
@@ -62,27 +62,36 @@ const loginUser = async (req, res) => {
     }
 }
 
-const getProfile = async  (req, res) => {
+const getProfile = async (req, res) => {
     try {
-        const {token} = req.cookies
+        const { token } = req.cookies
         if (token) {
-            jwt.verify(token, process.env.JWT_SECRET ,{}, (error, user) => {
+            jwt.verify(token, process.env.JWT_SECRET, {}, (error, user) => {
                 if (error) throw error
                 res.json(user)
             });
-        }else{
+        } else {
             res.json(null);
         }
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
+const logoutUser = async (req, res) => {
+    try {
+        res.clearCookie('token'); // Clear the cookie
+        res.json({ message: 'Logout successful' });
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
 module.exports = {
     test,
     registerUser,
     loginUser,
-    getProfile
+    getProfile,
+    logoutUser
 }
