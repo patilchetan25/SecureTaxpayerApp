@@ -1,29 +1,39 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../context/userContext'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from '../context/authContext'; // Import useAuth
+import toast from 'react-hot-toast';
 
 
 export default function Dashboard() {
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const user = localStorage.getItem('user') ?  JSON.parse(localStorage.getItem('user')) : null;
+  console.log(user)
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login'); // Redirect to login if not authenticated
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleLogout = async () => {
-    try {
-      const { data } = await axios.post('/logoutUser');
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        setData({});
-        localStorage.removeItem('user');
-        toast.success('Logout Successfull');
-        navigate('/login');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await logout();
     localStorage.removeItem('user');
+    toast.success('Logout Successfull');
     navigate('/login');
+    // try {
+    //   const { data } = await axios.post('/logoutUser');
+    //   if (data.error) {
+    //     toast.error(data.error);
+    //   } else {
+    //     localStorage.removeItem('user');
+    //     toast.success('Logout Successfull');
+    //     navigate('/login');
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // localStorage.removeItem('user');
+    // navigate('/login');
   };
 
   return (

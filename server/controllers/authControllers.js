@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
         if (!match) {
             return res.json({ error: "Password is incorrect" })
         } else {
-            jwt.sign({ email: user.email, id: user._id, name: user.name }, process.env.JWT_SECRET, {}, (error, token) => {
+            jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, {}, (error, token) => {
                 if (error) throw error
                 res.cookie('token', token).json(user)
             })
@@ -62,16 +62,16 @@ const loginUser = async (req, res) => {
     }
 }
 
-const getProfile = async (req, res) => {
+const checkAuth = async (req, res) => {
     try {
         const { token } = req.cookies
         if (token) {
             jwt.verify(token, process.env.JWT_SECRET, {}, (error, user) => {
                 if (error) throw error
-                res.json(user)
+                res.json({authenticated:true,user:user})
             });
         } else {
-            res.json(null);
+            res.json({authenticated:false,user:null});
         }
     } catch (error) {
         console.log(error)
@@ -92,6 +92,6 @@ module.exports = {
     test,
     registerUser,
     loginUser,
-    getProfile,
+    checkAuth,
     logoutUser
 }
