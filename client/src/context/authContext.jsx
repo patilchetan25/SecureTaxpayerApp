@@ -10,32 +10,29 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null); // State to hold error messages
     const navigate = useNavigate();
 
-   // useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const response = await axios.get('/checkAuth');
-                console.log(response.data)
-                setIsAuthenticated(response.data.authenticated);
-            } catch (error) {
-                setIsAuthenticated(false);
-            }
-        };
+    const checkAuth = async () => {
+        try {
+            const response = await axios.get('/checkAuth');
+            console.log(response.data)
+            setIsAuthenticated(response.data.authenticated);
+        } catch (error) {
+            setIsAuthenticated(false);
+        }
+    };
 
-    //     checkAuth();
-    // }, []);
 
     const login = async (credentials) => {
         try {
             const response = await axios.post('/loginUser', credentials);
-            if(response.data.error){
+            if (response.data.error) {
                 setIsAuthenticated(false);
                 toast.error(response.data.error);
-            }else{
+            } else {
                 setIsAuthenticated(true);
                 toast.success('Login Successfull');
                 localStorage.setItem('user', JSON.stringify(response.data));
                 navigate('/');
-            }           
+            }
         } catch (error) {
             setError("Login failed: " + error.response?.data?.error || "An error occurred.");
         }
@@ -53,10 +50,10 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (credentials) => {
         try {
-            const response= await axios.post('/registerUser', credentials);
-            if(response.data.error){
+            const response = await axios.post('/registerUser', credentials);
+            if (response.data.error) {
                 toast.error(response.data.error);
-            }else{
+            } else {
                 toast.success('Registration Successfull');
                 navigate('/login');
             }
