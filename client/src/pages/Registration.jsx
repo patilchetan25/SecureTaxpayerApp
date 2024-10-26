@@ -2,8 +2,10 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import {toast} from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './../context/authContext';
 
 export default function Registration() {
+const { register } = useAuth();
 const navigate = useNavigate();
  const [data, setData] = useState({
     name:"",
@@ -13,26 +15,13 @@ const navigate = useNavigate();
 
  const registerUser = async (e) =>{
     e.preventDefault();
-    const {name,email,password} = data;
-    try{
-        const {data} = await axios.post('/registerUser',{
-            name,email,password
-        });
-        if(data.error){
-            toast.error(data.error);
-        }else{
-            setData({});
-            toast.success('Registration Successfull');
-            navigate('/login');
-        }
-    }catch(error){
-        console.log(error);
-    }
+    await register(data);
  }
 
   return (
     <div>
         <form  onSubmit={registerUser}>
+            <h3>Registration</h3>
             <label>Name</label>
             <input type="text" value={data.name} onChange={(e) => setData({...data, name:e.target.value})} />
             <label>Email</label>

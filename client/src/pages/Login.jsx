@@ -1,6 +1,4 @@
-import axios from 'axios';
 import React, { useState } from 'react'
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './../context/authContext';
 
@@ -16,30 +14,11 @@ export default function Login() {
   const loginUser = async (e) => {
     e.preventDefault();
     await login(data);
-    if (isAuthenticated) {
-      setData({});
-    }
-    // e.preventDefault();
-    // const {email,password} = data;
-    // try{
-    //     const {data} = await axios.post('/loginUser',{
-    //         email,password
-    //     });
-    //     if(data.error){
-    //         toast.error(data.error);
-    //     }else{
-    //         setData({});
-    //         localStorage.setItem('user', JSON.stringify(data));
-    //         toast.success('Login Successfull');
-    //         navigate('/');
-    //     }
-    // }catch(error){
-    //     console.log(error);
-    // }
   }
 
   return (
     <form onSubmit={loginUser}>
+      <h3>Login</h3>
       <label>Email</label>
       <input type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
       <label>Password</label>

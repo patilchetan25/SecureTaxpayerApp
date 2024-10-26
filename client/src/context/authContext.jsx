@@ -53,9 +53,13 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (credentials) => {
         try {
-            await axios.post('/registerUser', credentials);
-            setIsAuthenticated(true);
-            setError(null); // Clear any previous errors
+            const response= await axios.post('/registerUser', credentials);
+            if(response.data.error){
+                toast.error(response.data.error);
+            }else{
+                toast.success('Registration Successfull');
+                navigate('/login');
+            }
         } catch (error) {
             setError("Registration failed: " + error.response?.data?.error || "An error occurred.");
         }
