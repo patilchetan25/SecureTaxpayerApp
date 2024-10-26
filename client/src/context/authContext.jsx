@@ -1,13 +1,16 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState(null); // State to hold error messages
+    const navigate = useNavigate();
 
-    useEffect(() => {
+   // useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('/checkAuth');
@@ -18,15 +21,21 @@ export const AuthProvider = ({ children }) => {
             }
         };
 
-        checkAuth();
-    }, []);
+    //     checkAuth();
+    // }, []);
 
     const login = async (credentials) => {
         try {
             const response = await axios.post('/loginUser', credentials);
-            setIsAuthenticated(true);
-            localStorage.setItem('user', JSON.stringify(response.data));
-            setError(null); // Clear any previous errors
+            if(response.data.error){
+                setIsAuthenticated(false);
+                toast.error(response.data.error);
+            }else{
+                setIsAuthenticated(true);
+                toast.success('Login Successfull');
+                localStorage.setItem('user', JSON.stringify(response.data));
+                navigate('/');
+            }           
         } catch (error) {
             setError("Login failed: " + error.response?.data?.error || "An error occurred.");
         }
@@ -53,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, register, error }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, register, error, checkAuth }}>
             {children}
         </AuthContext.Provider>
     );

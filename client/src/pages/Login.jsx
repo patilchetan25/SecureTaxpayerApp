@@ -18,8 +18,6 @@ export default function Login() {
     await login(data);
     if (isAuthenticated) {
       setData({});
-      toast.success('Login Successfull');
-      navigate('/');
     }
     // e.preventDefault();
     // const {email,password} = data;

@@ -19,13 +19,12 @@ function App() {
       <Navbar />
       <Toaster position='top-right' toastOptions={{duration:3000}} />
       <Routes>
-        
-        <Route path='registration' element={<Registration/>}></Route>
-        <Route path="/" element={
+         <Route path="/" element={
                 <ProtectedRoute>
                     <Dashboard />
                 </ProtectedRoute>
             } />
+        <Route path='registration' element={<Registration/>}></Route>
         <Route path='login' element={<Login />}></Route>
       </Routes>
       </AuthProvider>
