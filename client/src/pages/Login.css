@@ -1,64 +1,9 @@
-/* Quita estilos globales */
-.login-container {
-  color: #005074;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 20px;
-  background-color: #f4f4f4;
-  font-family: Arial, sans-serif;
-}
-
-.login-box {
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-box h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.login-box .input-group {
-  margin-bottom: 15px;
-  width: 100%;
-}
-
-.login-box label {
-  margin-bottom: 5px;
-  display: block;
-}
-
-.login-box input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.login-box button {
-  padding: 10px;
-  background-color: #005074;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-}
-
-.login-box button:hover {
-  background-color: #004060;
-}
-
-/* Responsive styles */
-@media (max-width: 600px) {
+/* LoginPage.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
   .login-container {
     display: flex;
     height: 100vh; /* Full viewport height */
@@ -145,12 +90,4 @@
       width: 100%; /* Full width for smaller screens */
     }
   }
-
-  .login-box h2 {
-      font-size: 24px;
-  }
-
-  .login-box button {
-      font-size: 16px;
-  }
-}
+  
