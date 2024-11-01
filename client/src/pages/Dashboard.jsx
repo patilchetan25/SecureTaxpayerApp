@@ -36,9 +36,9 @@ export default function Dashboard() {
       headerName: 'Actions',
       width: 100,
       renderCell: (params) => (
-        <IconButton color="primary" onClick={() => openModal(params.id)}>
-          <EditIcon />
-        </IconButton>
+        <IconButton onClick={() => openModal(params.id)}>
+        <EditIcon sx={{ color: '#005074' }} />
+      </IconButton>
       ),
       sortable: false,
       align: 'center',
