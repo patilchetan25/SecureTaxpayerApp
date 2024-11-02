@@ -7,6 +7,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EditIcon from '@mui/icons-material/Edit';
 import Dataactions from './Dataactions';
+import Navbar from '../components/NavBar';
 
 export default function Dashboard() {
   const { isAuthenticated, logout } = useAuth();
@@ -76,41 +77,43 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ height: '95vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Barra Superior */}
-      <AppBar position="static" sx={{ bgcolor: '#005074' }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            TaxPayer 
-          </Typography>
-          <Tooltip title="Log out" >
-          <IconButton color="inherit" onClick={handleLogout} >
-            <LogoutIcon />
-          </IconButton>
-          </Tooltip>
-          <Avatar sx={{ bgcolor: 'white', color: '#005074', ml: 2 }}>
-            {user?.name ? user.name[0] : "U"}
-            </Avatar>
+    <Navbar />
+    // <Navbar></Navbar>
+    // <div style={{ height: '95vh', display: 'flex', flexDirection: 'column' }}>
+    //   {/* Barra Superior */}
+    //   <AppBar position="static" sx={{ bgcolor: '#005074' }}>
+    //     <Toolbar>
+    //       <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+    //         TaxPayer 
+    //       </Typography>
+    //       <Tooltip title="Log out" >
+    //       <IconButton color="inherit" onClick={handleLogout} >
+    //         <LogoutIcon />
+    //       </IconButton>
+    //       </Tooltip>
+    //       <Avatar sx={{ bgcolor: 'white', color: '#005074', ml: 2 }}>
+    //         {user?.name ? user.name[0] : "U"}
+    //         </Avatar>
 
-        </Toolbar>
-      </AppBar>
+    //     </Toolbar>
+    //   </AppBar>
 
-      <Container maxWidth="lg" sx={{ flex: 1, mt: 4, display: 'flex', flexDirection: 'column' }}>
-        {/* Tabla */}
-        <Box sx={{ flex: 1 }}>
-          <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight={false} />
-        </Box>
-      </Container>
+    //   <Container maxWidth="lg" sx={{ flex: 1, mt: 4, display: 'flex', flexDirection: 'column' }}>
+    //     {/* Tabla */}
+    //     <Box sx={{ flex: 1 }}>
+    //       <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight={false} />
+    //     </Box>
+    //   </Container>
 
-      {/* Modal para Crear/Editar */}
-      <Dataactions
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onSave={handleSave}
-        formData={formData}
-        handleInputChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
-        editing={editingIndex !== null}
-      />
-    </div>
+    //   {/* Modal para Crear/Editar */}
+    //   <Dataactions
+    //     isOpen={isModalOpen}
+    //     onClose={closeModal}
+    //     onSave={handleSave}
+    //     formData={formData}
+    //     handleInputChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+    //     editing={editingIndex !== null}
+    //   />
+    // </div>
   );
 }

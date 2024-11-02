@@ -1,37 +1,82 @@
-/* src/Header.css */
-.header {
-    background-color: #005074; /* Navy blue color */
-    color: white;           /* Text color */
-    position: fixed;        /* Fix the header to the top */
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;         /* Ensure it stays above other content */
-}
-
-.nav {
+.navbar {
+    background-color: #005074; /* Your theme color */
+    color: white;
+    padding: 0 16px; /* Adjust padding */
+    height: 50px; /* Fixed height */
     display: flex;
-    justify-content: center; /* Center the nav items */
-    padding: 15px 0;        /* Space around the nav */
-}
-
-.nav ul {
-    list-style: none;       /* Remove bullet points */
-    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar h1 {
     margin: 0;
+    font-size: 1.5em; /* Adjust as needed */
+    line-height: 50px; /* Center the text vertically */
+  }
+  
+  .nav-links {
     display: flex;
-}
-
-.nav li {
-    margin: 0 15px;        /* Space between nav items */
-}
-
-.nav a {
-    color: white;          /* Link color */
+    gap: 20px; /* Space between links */
+    margin: 0 auto; /* Center the nav links */
+  }
+  
+  .nav-links a {
+    color: white; /* Link color */
     text-decoration: none; /* Remove underline */
-    transition: color 0.3s; /* Smooth transition */
-}
-
-.nav a:hover {
-    color: lightgray;      /* Change color on hover */
-}
+    padding: 10px; /* Padding around links */
+  }
+  
+  .nav-links a:hover {
+    /* No change on hover */
+  }
+  
+  .nav-links a.active {
+    font-weight: bold; /* Make the active link bold */
+    text-decoration: underline; /* Add underline to the active link */
+  }
+  
+  .profile-dropdown {
+    position: relative;
+  }
+  
+  .avatar {
+    background-color: white;
+    color: #005074;
+    border-radius: 50%;
+    width: 40px; /* Adjusted size for better appearance */
+    height: 40px; /* Adjusted size for better appearance */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+  
+  .logout-menu {
+    display: none; /* Hide by default */
+    position: absolute;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures it appears above other elements */
+    right: 0; /* Align to the right */
+    margin-top: 8px; /* Space below the avatar */
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+  
+  .logout-menu.show {
+    display: block; /* Show when toggled */
+  }
+  
+  .logout-menu-item {
+    padding: 10px 12px; /* Adequate padding for the menu item */
+    color: #005074; /* Text color */
+    cursor: pointer;
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+  
+  .logout-menu-item:hover {
+    background-color: #f0f0f0; /* Light background on hover */
+  }
+  

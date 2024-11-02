@@ -10,6 +10,16 @@ const userSchema = new Schema({
     password:String
 })
 
+// Update your Mongoose schema
+const DocumentSchema = new Schema({
+    filename: String,
+    path: String,
+    userEmail: String, // Change userId to userEmail
+  });
+
 const UserModel = mongoose.model("User", userSchema)
+const DocumentModel = mongoose.model("Document", DocumentSchema)
+
 
 module.exports = UserModel
+module.exports = DocumentModel

@@ -37,6 +37,22 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow for depth */
     text-align: center; /* Center the text */
   }
+
+  .register-button {
+    display: inline-block;
+    margin-top: 15px; /* Space above the button */
+    padding: 10px 20px; /* Padding around the button */
+    background-color: #005074; /* Match your theme color */
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 4px; /* Rounded corners */
+    text-align: center; /* Center text */
+  }
+  
+  .register-button:hover {
+    background-color: #004054; /* Darker shade on hover */
+  }
+  
   
   h2 {
     margin-bottom: 20px;

@@ -9,6 +9,7 @@ import axios from 'axios'
 import {Toaster} from 'react-hot-toast'
 import { AuthProvider } from './context/authContext'; // Import the AuthProvider
 import ProtectedRoute from './context/ProtectedRoute'
+import Documents from './pages/Documents'
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
@@ -16,12 +17,16 @@ axios.defaults.withCredentials = true;
 function App() {
   return (
       <AuthProvider>
-      <Navbar />
       <Toaster position='top-right' toastOptions={{duration:3000}} />
       <Routes>
          <Route path="/" element={
                 <ProtectedRoute>
                     <Dashboard />
+                </ProtectedRoute>
+            } />
+            <Route path="documents" element={
+                <ProtectedRoute>
+                    <Documents />
                 </ProtectedRoute>
             } />
         <Route path='registration' element={<Registration/>}></Route>
