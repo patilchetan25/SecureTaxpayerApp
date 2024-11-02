@@ -38,6 +38,32 @@ const registerUser = async (req, res) => {
         console.log(error)
     }
 }
+//Login Admin
+const loginAdmin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        //check if Admin exist
+        const admin = await Admin.findOne({ email });
+        if (!admin) {
+            return res.json({ error: "Admin not found" })
+        }
+
+        //check if password match for Admin
+        const match = await comparePassword(password, admin.password)
+        if (!match) {
+            return res.json({ error: "Admin Password is incorrect" })
+        } else {
+            jwt.sign({ email: admin.email, id: admin._id, name: admin.name, role: 'Admin' }, process.env.JWT_SECRET,{},(error,token)=>{
+                if (error) throw error;
+                res.cookie('token',token).json(admin)
+            })
+        }
+
+
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 const loginUser = async (req, res) => {
     try {
@@ -64,6 +90,7 @@ const loginUser = async (req, res) => {
         console.log(error)
     }
 }
+
 
 const checkAuth = async (req, res) => {
     try {
@@ -95,6 +122,7 @@ module.exports = {
     test,
     registerUser,
     loginUser,
+    loginAdmin,
     checkAuth,
     logoutUser
 }
