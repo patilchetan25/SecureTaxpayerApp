@@ -16,7 +16,9 @@ export default function Login() {
     e.preventDefault();
     await login(data);
   }
-
+const navigateToAdminLogin = () => {
+      navigate('/Adminlogin');
+    };
   return (
     <div className="login-container">
     <div className="image-section">
@@ -29,30 +31,31 @@ export default function Login() {
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={data.email}
-              onChange={(e) => setData({ ...data, email: e.target.value })}
-              required
+                type="email"
+                id="email"
+                name="email"
+                value={data.email}
+                onChange={(e) => setData({...data, email: e.target.value})}
+                required
             />
           </div>
           <div className="input-group">
             <label htmlFor="password">Password</label>
             <input
-              type="password"
-              id="password"
-              name="password"
-              value={data.password}
-              onChange={(e) => setData({ ...data, password: e.target.value })}
-              required
+                type="password"
+                id="password"
+                name="password"
+                value={data.password}
+                onChange={(e) => setData({...data, password: e.target.value})}
+                required
             />
           </div>
           <button type="submit">Login</button>
+          <button onClick={navigateToAdminLogin}>Admin Login</button>
         </form>
       </div>
     </div>
-  </div>
-  
+    </div>
+
   )
 }
