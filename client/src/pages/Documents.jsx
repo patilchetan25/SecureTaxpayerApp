@@ -89,12 +89,6 @@ const Documents = () => {
                 />
                 <button type="submit">Upload</button>
             </form>
-            {uploadedFile && (
-                <div>
-                    <h3>Uploaded File: {uploadedFile.originalname}</h3>
-                    <button onClick={() => handleDownload(uploadedFile)}>Download</button>
-                </div>
-            )}
             <h2>Uploaded Files</h2>
             <table>
                 <thead>
