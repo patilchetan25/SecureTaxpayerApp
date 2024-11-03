@@ -1,11 +1,45 @@
 const { hashPassword, comparePassword } = require('../helpers/auth');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+const File = require('../models/file'); // Your file model
+
 
 
 const test = (req, res) => {
     res.json("test is working")
 }
+
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to avoid filename conflicts
+    },
+});
+
+// File filter to allow specific types
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = /pdf|doc|docx|xls|xlsx|jpg|jpeg|png|gif/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+        return cb(null, true);
+    }
+    cb('Error: File type not allowed');
+};
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 10000000 }, // Limit file size to 10MB
+    fileFilter: fileFilter,
+});
+
 
 const registerUser = async (req, res) => {
     try {
@@ -117,11 +151,87 @@ const logoutUser = async (req, res) => {
     }
 }
 
+// Endpoint for uploading files
+const uploadFile = async (req, res) => {
+    try {
+        const file = req.file; // Access the uploaded file
+        const email = req.body.userEmail; // Ensure you're using userEmail
+
+        if (!file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        // Save file information to the database
+        await File.create({
+            userEmail: email,
+            filename: file.filename,
+            originalname: file.originalname,
+            path: file.path
+        });
+
+        res.json({
+            message: 'File uploaded successfully',
+            file: {
+                filename: file.filename,
+                originalname: file.originalname,
+                path: file.path,
+                userEmail: email
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error uploading file' });
+    }
+};
+
+const downloadFile = async (req, res) => {
+    const { email, filename } = req.params; // Get the email and filename from the request params
+
+    try {
+        // Find the file by user email and filename
+        const fileRecord = await File.findOne({ userEmail: email, filename });
+
+        if (!fileRecord) {
+            return res.status(404).json({ error: "File not found" });
+        }
+
+        const filePath = path.join(__dirname, '../uploads', fileRecord.filename); // Path to the uploaded file
+
+        // Use the originalname for the download
+        res.download(filePath, fileRecord.originalname, (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: "Error downloading file" });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+// Get files by user email
+const getFileList = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const files = await File.find({ userEmail: email }); // Fetch files for the specified user
+        res.json(files);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
 module.exports = {
     test,
     registerUser,
     loginUser,
     loginAdmin,
     checkAuth,
-    logoutUser
+    logoutUser,
+    uploadFile,
+    upload,
+    downloadFile,
+    getFileList
 }

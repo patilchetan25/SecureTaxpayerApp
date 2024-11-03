@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const cors = require('cors')
-const { test, registerUser, loginUser, loginAdmin, checkAuth, logoutUser } = require('../controllers/authControllers')
+const { test, registerUser, loginUser, loginAdmin, checkAuth, logoutUser, uploadFile, upload, downloadFile, getFileList } = require('../controllers/authControllers')
 
 //middleware
 router.use(
@@ -17,6 +17,10 @@ router.post('/loginUser', loginUser);
 router.post('/loginAdmin', loginAdmin);
 router.get('/checkAuth', checkAuth);
 router.post('/logoutUser', logoutUser);
+router.post('/upload', upload.single('file'), uploadFile);
+router.get('/download/:email/:filename', downloadFile);
+router.get('/files/:email',getFileList)
+
 
 
 module.exports = router
