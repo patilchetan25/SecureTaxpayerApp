@@ -166,7 +166,8 @@ const uploadFile = async (req, res) => {
             userEmail: email,
             filename: file.filename,
             originalname: file.originalname,
-            path: file.path
+            path: file.path,
+            createdAt: new Date()
         });
 
         res.json({

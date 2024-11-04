@@ -1,0 +1,54 @@
+/* Questions.css */
+
+.questions-container {
+    width: 100%; /* Full width of the parent */
+    height: 100%; /* Full height of the parent */
+    padding: 20px; /* Add padding for content */
+    background: #ffffff; /* White background for questions */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center content horizontally */
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+  
+  .questions-header {
+    text-align: center; /* Center header text */
+    margin-bottom: 20px; /* Space below the header */
+  }
+  
+  .question {
+    margin-bottom: 15px; /* Space between questions */
+    width: 300px; /* Set a specific width for each question section */
+  }
+  
+  input, select {
+    width: 100%; /* Full width of the container */
+    padding: 8px; /* Padding for inputs */
+    margin-top: 5px; /* Space above inputs */
+    border: 1px solid #005074; /* Dark border matching theme color */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding in width calculations */
+  }
+  
+  button {
+    background-color: #005074; /* Theme color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Button padding */
+    cursor: pointer; /* Pointer on hover */
+    margin: 0 10px; /* Space between buttons */
+  }
+  
+  button:hover {
+    background-color: #003d54; /* Darker shade on hover */
+  }
+  
+  .button-group {
+    display: flex; /* Align buttons horizontally */
+    justify-content: center; /* Center buttons */
+    margin-top: 20px; /* Space above button group */
+  }
+  

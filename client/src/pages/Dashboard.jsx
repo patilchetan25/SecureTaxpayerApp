@@ -77,7 +77,7 @@ export default function Dashboard() {
   };
 
   return (
-    <Navbar />
+    <p>Hi</p>
     // <Navbar></Navbar>
     // <div style={{ height: '95vh', display: 'flex', flexDirection: 'column' }}>
     //   {/* Barra Superior */}
