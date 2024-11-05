@@ -84,6 +84,25 @@ body {
   button:hover {
     background-color: #007c92; /* Slightly lighter color on hover */
   }
+
+  /* Style the link to make it look like a button or a regular link */
+.login-redirect {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .login-redirect a {
+    color: #005074; /* Set color for the link */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .login-redirect a:hover {
+    color: #007c92; /* Change color on hover */
+  }
+  
   
   /* Responsive styles */
   @media (max-width: 600px) {
