@@ -9,6 +9,7 @@ body {
     display: flex;
     height: 100vh; /* Full viewport height */
     color: #005074;
+    width: 100%;
   }
   
   .image-section {

@@ -4,7 +4,6 @@
     width: 100%; /* Full width of the parent */
     height: 100%; /* Full height of the parent */
     padding: 20px; /* Add padding for content */
-    background: #ffffff; /* White background for questions */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     display: flex;

@@ -43,7 +43,7 @@ export default function Navbar() {
 
   return (
     <div className="navbar">
-    <h1>Taxpayer Application</h1>
+    <h1>Secure Taxpayer Application</h1>
     <div className="nav-links">
       <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
       <Link to="/questions" className={location.pathname === '/questions' ? 'active' : ''}>Questions</Link>
@@ -51,7 +51,7 @@ export default function Navbar() {
     </div>
     <div className="profile-dropdown" ref={menuRef}>
       <div className="avatar" onClick={toggleLogoutMenu}>
-        {user?.name ? user.name[0] : "U"}
+        {user && user.lastName && user.firstName[0] + user.lastName[0]}
       </div>
       {showLogoutMenu && (
         <div className="logout-menu show">

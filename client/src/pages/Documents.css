@@ -5,7 +5,6 @@
     width: 100%; /* Full width */
     padding: 20px; /* Padding around the container */
     box-sizing: border-box; /* Include padding in height calculations */
-    background: #ffffff; /* White background */
 }
 
 .upload-section {
@@ -16,7 +15,6 @@
     padding: 20px;
     border: 1px solid #005074; /* Border using theme color */
     border-radius: 8px; /* Rounded corners */
-    background-color: #f0f8ff; /* Light background for contrast */
 }
 
 .file-upload {
@@ -67,7 +65,6 @@
 }
 
 .file-table tr:nth-child(even) {
-    background-color: #f2f2f2; /* Zebra stripe effect */
 }
 
 .download-button {
