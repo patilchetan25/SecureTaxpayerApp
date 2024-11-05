@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useAuth } from './../context/authContext';
-import './Login.css'
-
+import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const { isAuthenticated, login, error } = useAuth();
@@ -10,11 +9,15 @@ export default function Login() {
   const [data, setData] = useState({
     email: "",
     password: ""
-  })
+  });
 
   const loginUser = async (e) => {
     e.preventDefault();
     await login(data);
+  };
+
+  const goToRegister = ()=>{
+    navigate('/registration')
   }
 
   return (
@@ -49,10 +52,12 @@ export default function Login() {
               />
             </div>
             <button type="submit">Login</button>
+            {/* Add a class to the Register button */}
+            <button type="button" className="register-button" onClick={goToRegister}>
+              Register</button>
           </form>
         </div>
       </div>
     </div>
-  
-  )
+  );
 }
