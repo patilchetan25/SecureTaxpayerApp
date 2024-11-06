@@ -92,7 +92,22 @@ export default function DashboardAdmin() {
             pageSize={5}
             rowsPerPageOptions={[5]}
             autoHeight={false}
-            sx={{ minWidth: '1000px', width: '100%' }}
+            sx={{
+              minWidth: '1000px',
+              width: '100%',
+              '& .MuiDataGrid-cell': {
+                backgroundColor: 'white', // Fondo blanco para las celdas
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: 'white', // Fondo blanco para las cabeceras
+              },
+              '& .MuiDataGrid-footerContainer': {
+                backgroundColor: 'white', // Fondo blanco para el pie de página
+              },
+              '& .MuiDataGrid-virtualScroller': {
+                backgroundColor: 'white', // Fondo blanco para todo el área de scroll virtual
+              },
+            }}
             getRowId={(row) => row._id}
           />
         </Box>
