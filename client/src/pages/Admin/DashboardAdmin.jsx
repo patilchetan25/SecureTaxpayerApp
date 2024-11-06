@@ -7,24 +7,24 @@ import { DataGrid } from '@mui/x-data-grid';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EditIcon from '@mui/icons-material/Edit';
 import Dataactions from './DataactionsAdmin';
-import { getUsers } from '../../Services/adminservice'; // Importa el servicio
+import { getUsers } from '../../Services/adminservice'; 
 
 export default function DashboardAdmin() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
-  const [data, setData] = useState([]); // Inicializa como arreglo vacío
+  const [data, setData] = useState([]); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', role: '' });
   const [editingIndex, setEditingIndex] = useState(null);
 
-  // Llamada al servicio para obtener usuarios al montar el componente
+  // Service call to get users when mounting component
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const users = await getUsers();
-        setData(users); // Actualiza el estado con los usuarios obtenidos
+        setData(users); // Update the state with the users obtained
       } catch (error) {
         toast.error('Failed to fetch users');
       }
@@ -96,16 +96,16 @@ export default function DashboardAdmin() {
               minWidth: '1000px',
               width: '100%',
               '& .MuiDataGrid-cell': {
-                backgroundColor: 'white', // Fondo blanco para las celdas
+                backgroundColor: 'white',
               },
               '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: 'white', // Fondo blanco para las cabeceras
+                backgroundColor: 'white', 
               },
               '& .MuiDataGrid-footerContainer': {
-                backgroundColor: 'white', // Fondo blanco para el pie de página
+                backgroundColor: 'white', 
               },
               '& .MuiDataGrid-virtualScroller': {
-                backgroundColor: 'white', // Fondo blanco para todo el área de scroll virtual
+                backgroundColor: 'white', 
               },
             }}
             getRowId={(row) => row._id}
@@ -113,7 +113,7 @@ export default function DashboardAdmin() {
         </Box>
       </Container>
 
-      {/* Modal para Crear/Editar */}
+      {/* Modal to Create/Edit */}
       <Dataactions
         isOpen={isModalOpen}
         onClose={closeModal}

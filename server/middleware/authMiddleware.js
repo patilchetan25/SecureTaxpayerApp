@@ -13,7 +13,7 @@ const authMiddleware = (req, res, next) => {
             return res.status(403).json({ error: 'Invalid token' });
         }
 
-        req.user = user; // Guardar el usuario en la solicitud para usar en las rutas
+        req.user = user; // Save the user in the request to use in routes
         next();
     });
 };

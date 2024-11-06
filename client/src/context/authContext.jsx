@@ -35,9 +35,9 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no
             
                 if (response.data.user.isAdmin) {
-                    navigate('/admin'); // Redirige al panel de administración
+                    navigate('/admin'); // Redirect to the administration panel
                 } else {
-                    navigate('/'); // Redirige a la página principal
+                    navigate('/'); // Redirects to the main page
                 }
             }
         } catch (error) {

@@ -13,12 +13,12 @@ const adminMiddleware = (req, res, next) => {
             return res.status(403).json({ error: 'Invalid token' });
         }
 
-        // Verificar si el usuario tiene permisos de administrador
+        // Check if the user has administrator permissions
         if (!user.isAdmin) {
             return res.status(403).json({ error: 'Access denied, admin only' });
         }
 
-        req.user = user; // Guardar la información del usuario para su uso en el controlador
+        req.user = user; // Save user information for use in the controller
         next();
     });
 };
