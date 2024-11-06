@@ -113,9 +113,24 @@ const loginUser = async (req, res) => {
         if (!match) {
             return res.json({ error: "Password is incorrect" })
         } else {
-            jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, {}, (error, token) => {
+            
+            const payload = {
+                email: user.email,
+                id: user._id,
+                isAdmin: user.isAdminUser
+            };
+
+
+            jwt.sign(payload, process.env.JWT_SECRET, {}, (error, token) => {
                 if (error) throw error
-                res.cookie('token', token).json(user)
+                res.cookie('token', token).json({
+                    token,
+                    user: {
+                        email: user.email,
+                        id: user._id,
+                        isAdmin: user.isAdminUser
+                    }
+                });
             })
         }
 

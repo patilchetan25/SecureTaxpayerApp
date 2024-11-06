@@ -8,9 +8,10 @@ import Login from './pages/Login';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/authContext'; // Import the AuthProvider
-import ProtectedRoute from './context/ProtectedRoute';
+import { ProtectedRoute, AdminProtectedRoute } from './context/ProtectedRoute';
 import Documents from './pages/Documents';
 import Questions from './pages/Questions';
+import DashboardAdmin from './pages/Admin/DashboardAdmin';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
@@ -51,6 +52,11 @@ function App() {
                 <ProtectedRoute>
                   <Questions />
                 </ProtectedRoute>
+              } />
+              <Route path="admin" element={
+                <AdminProtectedRoute>
+                  <DashboardAdmin />
+                </AdminProtectedRoute>
               } />
               <Route path="registration" element={<Registration />} />
               <Route path="login" element={<Login />} />

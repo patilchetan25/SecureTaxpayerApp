@@ -15,6 +15,7 @@ export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+  const isAdmin = localStorage.getItem('isAdmin') === 'true'; // Check if the user is admin
 
   const handleLogout = async () => {
     setShowLogoutMenu(false); // Hide the menu after logging out
@@ -45,13 +46,19 @@ export default function Navbar() {
     <div className="navbar">
     <h1>Secure Taxpayer Application</h1>
     <div className="nav-links">
+      {/* Render link only if user is admin */}
+      {isAdmin && (
+                <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>
+                    Admin Dashboard
+                </Link>
+      )}
       <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
       <Link to="/questions" className={location.pathname === '/questions' ? 'active' : ''}>Questions</Link>
       <Link to="/documents" className={location.pathname === '/documents' ? 'active' : ''}>Documents</Link>
     </div>
     <div className="profile-dropdown" ref={menuRef}>
       <div className="avatar" onClick={toggleLogoutMenu}>
-        {user && user.lastName && user.firstName[0] + user.lastName[0]}
+        {user && user.email[0].toUpperCase()}
       </div>
       {showLogoutMenu && (
         <div className="logout-menu show">

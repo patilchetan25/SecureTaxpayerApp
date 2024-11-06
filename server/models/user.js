@@ -7,6 +7,7 @@ const userSchema = new Schema({
         type: String,
         unique: true
     },
+    isAdminUser:Boolean,
     password:String,
     lastName:String,
     phoneNumber:String,
@@ -16,6 +17,7 @@ const userSchema = new Schema({
     state:String,
     city:String,
     dateOfBirth:String
+    
 })
 
 const UserModel = mongoose.model("User", userSchema)
