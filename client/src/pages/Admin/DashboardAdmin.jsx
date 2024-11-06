@@ -40,7 +40,7 @@ export default function DashboardAdmin() {
       width: 100,
       renderCell: (params) => (
         <IconButton color="primary" onClick={() => openModal(params.id)}>
-          <EditIcon />
+          <EditIcon sx={{ color: '#005074' }} />
         </IconButton>
       ),
       sortable: false,

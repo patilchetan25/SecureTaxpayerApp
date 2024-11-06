@@ -59,10 +59,14 @@ export default function Dataactions({ isOpen, onClose, onSave, formData, handleI
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={onSave} variant="contained" color="primary">
-          Save
-        </Button>
+      <Button 
+        onClick={onClose} sx={{ color: '#005074', '&:hover': { backgroundColor: '#f0f4f8' } }} >Cancel </Button>
+        <Button onClick={onSave} 
+        variant="contained" 
+        sx={{ backgroundColor: '#005074', color: 'white', '&:hover': { backgroundColor: '#003f5a' } }} 
+        >
+        Save
+      </Button>
       </DialogActions>
     </Dialog>
   );
