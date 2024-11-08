@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import InputMask from 'react-input-mask'; // Import InputMask
 import './Questions.css';  // Importing the CSS file for styling
 import toast from 'react-hot-toast';
 
@@ -12,16 +13,12 @@ const Questions = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                // Get the user info from localStorage (assuming the user is saved in localStorage)
                 const userInfo = JSON.parse(localStorage.getItem('user'));
                 
                 if (userInfo && userInfo.email) {
-                    // Make the API call to fetch the user data by email or user ID
                     const response = await axios.get(`http://localhost:8000/getUserById/${userInfo.email}`);
-                    
-                    // Set the response data to the userInfo and formData states
                     setUserInfo(response.data.user);
-                    setFormData(response.data.user);  // Assuming response contains the user details you want
+                    setFormData(response.data.user);
                     if(response.data.user.maritalStatus == 'Married'){
                         setIsMarried(true);
                     }
@@ -31,7 +28,6 @@ const Questions = () => {
             }
         };
 
-        // Call the fetch function
         fetchUserData();
     }, []); // Empty dependency array means this will run once on component mount
 
@@ -50,7 +46,6 @@ const Questions = () => {
             [name]: value,
         });
 
-        // Update marital status and conditionally handle next step
         if (name === 'maritalStatus') {
             if (value === 'Married') {
                 setIsMarried(true);
@@ -60,40 +55,38 @@ const Questions = () => {
         }
     };
 
-    // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const userInfo = JSON.parse(localStorage.getItem('user'));
-      const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
-      // If the update was successful, show a success message or redirect
-      toast.success('User updated successfully!');
-      console.log('Updated user:', response.data);
-    } catch (error) {
-      console.error('Error updating user:', error);
-      toast.error('An error occurred while updating the user.');
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const userInfo = JSON.parse(localStorage.getItem('user'));
+            const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
+            toast.success('User updated successfully!');
+            console.log('Updated user:', response.data);
+        } catch (error) {
+            console.error('Error updating user:', error);
+            toast.error('An error occurred while updating the user.');
+        }
+    };
 
     const nextStep = () => {
         if (step === 1 && formData.maritalStatus === 'Single') {
-            setStep(3); // Skip to taxpayer info if Single
+            setStep(3);
         } else if (step === 1 && formData.maritalStatus === 'Married') {
-            setStep(2); // Go to filing status if Married
+            setStep(2);
         } else if (step === 2) {
-            setStep(3); // Go to taxpayer info after filing status
+            setStep(3);
         } else if (step === 3) {
-            setStep(4); // Go to spouse info after taxpayer info (if married)
+            setStep(4);
         }
     };
 
     const prevStep = () => {
         if (step === 3 && formData.maritalStatus === 'Single') {
-            setStep(1); // Go back to marital status if single and on taxpayer info
+            setStep(1);
         } else if (step === 4) {
-            setStep(3); // Go back to taxpayer info if on spouse info
+            setStep(3);
         } else {
-            setStep(step - 1); // Go to the previous step
+            setStep(step - 1);
         }
     };
 
@@ -169,10 +162,10 @@ const Questions = () => {
                         <h3>3. Taxpayer Information</h3>
                         <div className="input-group">
                             <label>Social Security Number (SSN)</label>
-                            <input
-                                type="text"
-                                name="taxpayerSSN"
-                                value={formData.taxpayerSSN}
+                            <InputMask
+                                mask="999-99-9999"
+                                name="ssn"
+                                value={formData.ssn}
                                 onChange={handleInputChange}
                                 placeholder="XXX-XX-XXXX"
                             />
@@ -204,16 +197,16 @@ const Questions = () => {
                             <label>Date of Birth</label>
                             <input
                                 type="date"
-                                name="dob"
-                                value={formData.dob}
+                                name="dateOfBirth"
+                                value={formData.dateOfBirth}
                                 onChange={handleInputChange}
                             />
                         </div>
 
                         <div className="input-group">
                             <label>Cell Phone Number</label>
-                            <input
-                                type="tel"
+                            <InputMask
+                                mask="(999) 999-9999"
                                 name="cellPhone"
                                 value={formData.cellPhone}
                                 onChange={handleInputChange}
@@ -256,8 +249,8 @@ const Questions = () => {
 
                         <div className="input-group">
                             <label>Zip Code</label>
-                            <input
-                                type="text"
+                            <InputMask
+                                mask="99999"
                                 name="zipCode"
                                 value={formData.zipCode}
                                 onChange={handleInputChange}
@@ -273,8 +266,8 @@ const Questions = () => {
                         <h3>4. Spouse Information</h3>
                         <div className="input-group">
                             <label>Social Security Number (SSN)</label>
-                            <input
-                                type="text"
+                            <InputMask
+                                mask="999-99-9999"
                                 name="spouseSSN"
                                 value={formData.spouseSSN}
                                 onChange={handleInputChange}
@@ -316,8 +309,8 @@ const Questions = () => {
 
                         <div className="input-group">
                             <label>Cell Phone Number</label>
-                            <input
-                                type="tel"
+                            <InputMask
+                                mask="(999) 999-9999"
                                 name="spouseCellPhone"
                                 value={formData.spouseCellPhone}
                                 onChange={handleInputChange}
@@ -357,8 +350,8 @@ const Questions = () => {
                         </div>
                         <div className="input-group">
                             <label>Zipcode</label>
-                            <input
-                                type="text"
+                            <InputMask
+                                mask="99999"
                                 name="spouseZipCode"
                                 value={formData.spouseZipCode}
                                 onChange={handleInputChange}
