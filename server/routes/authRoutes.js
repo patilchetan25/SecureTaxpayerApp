@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const cors = require('cors')
-const { test, registerUser, loginUser, loginAdmin, checkAuth, logoutUser, uploadFile, upload, downloadFile, getFileList } = require('../controllers/authControllers')
+const { test, registerUser, loginUser, loginAdmin, checkAuth, logoutUser, uploadFile, upload, downloadFile, getFileList, saveTaxpayerQuestions, getUserById } = require('../controllers/authControllers')
 const { listUsers, updateUser, filesuser, downloadFileuser} = require('../controllers/AdminControllers')
 const authMiddleware = require('../middleware/authMiddleware');
 const adminMiddleware = require('../middleware/adminMiddleware');
@@ -19,6 +19,8 @@ router.post('/loginUser', loginUser);
 router.post('/loginAdmin', loginAdmin);
 router.get('/checkAuth', authMiddleware, checkAuth);
 router.post('/logoutUser', authMiddleware, logoutUser);
+router.post('/saveTaxpayerQuestions/:email', saveTaxpayerQuestions);
+router.get('/getUserById/:email', getUserById);
 router.post('/upload', authMiddleware, upload.single('file'), uploadFile);
 router.get('/download/:email/:filename', authMiddleware, downloadFile);
 router.get('/files/:email',authMiddleware, getFileList)

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Questions.css';  // Importing the CSS file for styling
+import toast from 'react-hot-toast';
 
 const Questions = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -11,16 +12,28 @@ const Questions = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
+                // Get the user info from localStorage (assuming the user is saved in localStorage)
                 const userInfo = JSON.parse(localStorage.getItem('user'));
-                setUserInfo(userInfo);
-                setFormData(userInfo);
+                
+                if (userInfo && userInfo.email) {
+                    // Make the API call to fetch the user data by email or user ID
+                    const response = await axios.get(`http://localhost:8000/getUserById/${userInfo.email}`);
+                    
+                    // Set the response data to the userInfo and formData states
+                    setUserInfo(response.data.user);
+                    setFormData(response.data.user);  // Assuming response contains the user details you want
+                    if(response.data.user.maritalStatus == 'Married'){
+                        setIsMarried(true);
+                    }
+                }
             } catch (error) {
-                console.error('Error fetching user data:', error);
+                console.error('Error while getting user:', error);
             }
         };
 
+        // Call the fetch function
         fetchUserData();
-    }, []);
+    }, []); // Empty dependency array means this will run once on component mount
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -47,17 +60,20 @@ const Questions = () => {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const userEmail = JSON.parse(localStorage.getItem('user'))?.email;
-            await axios.put(`http://localhost:8000/user/${userEmail}`, formData);
-            alert('User information updated successfully!');
-        } catch (error) {
-            console.error('Error updating user data:', error);
-            alert('Failed to update user information');
-        }
-    };
+    // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userInfo = JSON.parse(localStorage.getItem('user'));
+      const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
+      // If the update was successful, show a success message or redirect
+      toast.success('User updated successfully!');
+      console.log('Updated user:', response.data);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      toast.error('An error occurred while updating the user.');
+    }
+  };
 
     const nextStep = () => {
         if (step === 1 && formData.maritalStatus === 'Single') {
@@ -317,6 +333,36 @@ const Questions = () => {
                                 value={formData.spouseStreetAddress}
                                 onChange={handleInputChange}
                                 placeholder="Enter spouse's address"
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label>City</label>
+                            <input
+                                type="text"
+                                name="spouseCity"
+                                value={formData.spouseCity}
+                                onChange={handleInputChange}
+                                placeholder="Enter spouse's city"
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label>State</label>
+                            <input
+                                type="text"
+                                name="spouseState"
+                                value={formData.spouseState}
+                                onChange={handleInputChange}    
+                                placeholder="Enter spouse's state"
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label>Zipcode</label>
+                            <input
+                                type="text"
+                                name="spouseZipCode"
+                                value={formData.spouseZipCode}
+                                onChange={handleInputChange}
+                                placeholder="Enter spouse's zipcode"
                             />
                         </div>
                     </div>

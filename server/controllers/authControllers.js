@@ -147,6 +147,7 @@ const checkAuth = async (req, res) => {
         if (token) {
             jwt.verify(token, process.env.JWT_SECRET, {}, (error, user) => {
                 if (error) throw error
+                console.log(user)
                 res.json({authenticated:true,user:user})
             });
         } else {
@@ -156,6 +157,81 @@ const checkAuth = async (req, res) => {
         console.log(error)
     }
 }
+
+const getUserById = async (req, res) => {
+    try {
+        // Extract userId from the URL params
+        const { email } = req.params;
+
+        // Fetch the full user document by userId from the database
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Respond with the user document
+        res.json({ user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+};
+
+const saveTaxpayerQuestions = async (req, res) => {
+    try {
+        // Destructure fields from the request body
+        const {
+            firstName, lastName,
+            phoneNumber, ssn, streetAddress, zipCode, state, city, dateOfBirth,
+            maritalStatus, filingStatus,
+            spouseSSN, spouseFirstName, spouseLastName, spouseDateOfBirth, spousePhoneNumber, spouseStreetAddress
+        } = req.body;
+
+        // Extract the user's email or userId from params or body to locate the user (can also use _id if using MongoDB)
+        const { email } = req.params;  // Assuming you are using a userId to find the user
+
+        // Validate that the user exists in the database
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(404).json({ error: "email not found" });
+        }
+
+        // Validate required fields for taxpayer (user)
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (phoneNumber) user.phoneNumber = phoneNumber;
+        if (ssn) user.ssn = ssn;
+        if (streetAddress) user.streetAddress = streetAddress;
+        if (zipCode) user.zipCode = zipCode;
+        if (state) user.state = state;
+        if (city) user.city = city;
+        if (dateOfBirth) user.dateOfBirth = dateOfBirth;
+
+        // Update marital status and spouse fields (if applicable)
+        if (maritalStatus) user.maritalStatus = maritalStatus;
+        if (filingStatus) user.filingStatus = filingStatus;
+
+        if (maritalStatus === "Married") {
+            if (spouseSSN) user.spouseSSN = spouseSSN;
+            if (spouseFirstName) user.spouseFirstName = spouseFirstName;
+            if (spouseLastName) user.spouseLastName = spouseLastName;
+            if (spouseDateOfBirth) user.spouseDateOfBirth = spouseDateOfBirth;
+            if (spousePhoneNumber) user.spousePhoneNumber = spousePhoneNumber;
+            if (spouseStreetAddress) user.spouseStreetAddress = spouseStreetAddress;
+        }
+
+        // Save the updated user document
+        await user.save();
+
+        // Return the updated user data
+        return res.json(user);
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "An error occurred while updating the user" });
+    }
+};
+
 
 const logoutUser = async (req, res) => {
     try {
@@ -249,5 +325,7 @@ module.exports = {
     uploadFile,
     upload,
     downloadFile,
-    getFileList
+    getFileList,
+    saveTaxpayerQuestions,
+    getUserById
 }
