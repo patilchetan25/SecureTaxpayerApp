@@ -147,7 +147,6 @@ const checkAuth = async (req, res) => {
         if (token) {
             jwt.verify(token, process.env.JWT_SECRET, {}, (error, user) => {
                 if (error) throw error
-                console.log(user)
                 res.json({authenticated:true,user:user})
             });
         } else {
