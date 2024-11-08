@@ -13,8 +13,9 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
         try {
             const response = await axios.get('/checkAuth');
-            console.log(response.data)
             setIsAuthenticated(response.data.authenticated);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
         } catch (error) {
             setIsAuthenticated(false);
         }
@@ -32,8 +33,7 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
                 toast.success('Login Successfull');
                 localStorage.setItem('user', JSON.stringify(response.data.user));
-                localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no
-            
+                localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
                 if (response.data.user.isAdmin) {
                     navigate('/admin'); // Redirect to the administration panel
                 } else {

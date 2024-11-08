@@ -143,19 +143,45 @@ const loginUser = async (req, res) => {
 
 const checkAuth = async (req, res) => {
     try {
-        const { token } = req.cookies
+        const { token } = req.cookies;
         if (token) {
-            jwt.verify(token, process.env.JWT_SECRET, {}, (error, user) => {
-                if (error) throw error
-                res.json({authenticated:true,user:user})
+            // Verify the token asynchronously
+            jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {
+                if (error) {
+                    console.log('Error verifying token:', error);
+                    return res.status(401).json({ authenticated: false, user: null });
+                }
+
+                // After successful verification, you get the decoded token (which contains user info like _id or email)
+                const userEmail = decoded.email;  // Assuming the email is included in the token's payload
+
+                // Fetch user from the database using email (or use user._id if that's stored in the token)
+                try {
+                    const user = await User.findOne({ email: userEmail });
+
+                    if (!user) {
+                        return res.status(404).json({ authenticated: false, user: null });
+                    }
+
+                    // If user is found, return the full user object
+                    res.json({
+                        authenticated: true,
+                        user: user // The whole user object returned from the database
+                    });
+
+                } catch (dbError) {
+                    console.error('Database query error:', dbError);
+                    res.status(500).json({ authenticated: false, user: null });
+                }
             });
         } else {
-            res.json({authenticated:false,user:null});
+            res.json({ authenticated: false, user: null });
         }
     } catch (error) {
-        console.log(error)
+        console.log('Error in checkAuth:', error);
+        res.status(500).json({ authenticated: false, user: null });
     }
-}
+};
 
 const getUserById = async (req, res) => {
     try {
