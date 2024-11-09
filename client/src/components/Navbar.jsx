@@ -16,7 +16,7 @@ export default function Navbar() {
 
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const isAdmin = (userInfo && userInfo.isAdmin == true) ? true : false // Check if the user is admin
+  const isAdmin = (userInfo && userInfo.isAdminUser == true) ? true : false // Check if the user is admin
 
   const handleLogout = async () => {
     setShowLogoutMenu(false); // Hide the menu after logging out

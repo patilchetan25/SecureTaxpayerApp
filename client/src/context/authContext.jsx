@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
                 toast.success('Login Successfull');
                 setUserInfo(response.data.user);
-                if (response.data.user.isAdmin) {
+                if (response.data.user.isAdminUser) {
                     navigate('/admin'); // Redirect to the administration panel
                 } else {
                     navigate('/'); // Redirects to the main page

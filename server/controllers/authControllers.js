@@ -117,7 +117,7 @@ const loginUser = async (req, res) => {
             const payload = {
                 email: user.email,
                 id: user._id,
-                isAdmin: user.isAdminUser
+                isAdminUser: user.isAdminUser
             };
 
 
@@ -128,7 +128,7 @@ const loginUser = async (req, res) => {
                     user: {
                         email: user.email,
                         id: user._id,
-                        isAdmin: user.isAdminUser
+                        isAdminUser: user.isAdminUser
                     }
                 });
             })

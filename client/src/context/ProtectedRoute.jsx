@@ -11,7 +11,6 @@ export const ProtectedRoute = ({ children }) => {
         const verifyAuth = async () => {
             await checkAuth(); // Call your API to check authentication
             setLoading(false); // Update loading state
-            console.log("here");
         };
 
         verifyAuth();
@@ -32,7 +31,7 @@ export const AdminProtectedRoute = ({ children }) => {
     const { isAuthenticated, checkAuth, userInfo } = useAuth();
     const location = useLocation();
     const [loading, setLoading] = useState(true);
-    const isAdmin = (userInfo && userInfo.isAdmin == true) ? true : false // Check if the user is admin
+    const isAdmin = (userInfo && userInfo.isAdminUser == true) ? true : false // Check if the user is admin
 
     useEffect(() => {
         const verifyAuth = async () => {
