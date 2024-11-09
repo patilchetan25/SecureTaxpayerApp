@@ -7,6 +7,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
     const [error, setError] = useState(null); // State to hold error messages
     const navigate = useNavigate();
 
@@ -14,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await axios.get('/checkAuth');
             setIsAuthenticated(response.data.authenticated);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+            setUserInfo(response.data.user);
             localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
         } catch (error) {
             setIsAuthenticated(false);
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
             } else {
                 setIsAuthenticated(true);
                 toast.success('Login Successfull');
-                localStorage.setItem('user', JSON.stringify(response.data.user));
+                setUserInfo(response.data.user);
                 localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
                 if (response.data.user.isAdmin) {
                     navigate('/admin'); // Redirect to the administration panel
@@ -73,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, register, error, checkAuth }}>
+        <AuthContext.Provider value={{ isAuthenticated, userInfo, login, logout, register, error, checkAuth }}>
             {children}
         </AuthContext.Provider>
     );
