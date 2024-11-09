@@ -1,42 +1,63 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* App.css */
+
+/* Main wrapper styling */
+.cp-main-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full height to cover the viewport */
+  margin: 0; /* Remove any margin */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Header styling */
+.cp-header-wrap {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the header */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Content wrapper styling */
+.cp-content-wrap {
+  flex: 1; /* Fill available space */
+  display: flex;
+  padding: 0; /* Remove any padding */
+  overflow: hidden; /* Prevent overflow */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Middle content area styling */
+.middle-content {
+  flex: 1; /* Expand to fill available space */
+  display: flex; /* Allow child elements to use flex */
+  justify-content: center; /* Center children vertically */
+  align-items: flex-start; /* Align children to the top */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  overflow: auto; /* Allow scrolling only if necessary */
 }
 
-.card {
-  padding: 2em;
+/* Adjustments when the header is hidden */
+.cp-main-wrapper.no-header .cp-header-wrap {
+  display: none; /* Completely hide the header */
 }
 
-.read-the-docs {
-  color: #888;
+.cp-main-wrapper.no-header .middle-content {
+  margin-top: 0; /* No margin when header is hidden */
+}
+
+/* Additional styling for pages */
+body {
+  margin: 0; /* Remove default body margin */
+  font-family: Arial, sans-serif; /* Font for the app */
+  background-color: #eef2f3; /* Light background color */
+}
+
+/* Example button styling */
+button {
+  background-color: #007bff; /* Primary button color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Button padding */
+  cursor: pointer; /* Pointer on hover */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }

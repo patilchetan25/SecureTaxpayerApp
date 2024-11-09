@@ -1,46 +1,99 @@
 import axios from 'axios';
-import React, { useState } from 'react'
-import {toast} from 'react-hot-toast';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './../context/authContext';
+import { Link } from 'react-router-dom';  // Import Link from React Router
+import './Registration.css';
 
 export default function Registration() {
-const navigate = useNavigate();
- const [data, setData] = useState({
-    name:"",
-    email:"",
-    password:""
- });
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
 
- const registerUser = async (e) =>{
+  const registerUser = async (e) => {
     e.preventDefault();
-    const {name,email,password} = data;
-    try{
-        const {data} = await axios.post('/registerUser',{
-            name,email,password
-        });
-        if(data.error){
-            toast.error(data.error);
-        }else{
-            setData({});
-            toast.success('Registration Successfull');
-            navigate('/login');
-        }
-    }catch(error){
-        console.log(error);
-    }
- }
+    await register(data);
+  };
 
   return (
-    <div>
-        <form  onSubmit={registerUser}>
-            <label>Name</label>
-            <input type="text" value={data.name} onChange={(e) => setData({...data, name:e.target.value})} />
-            <label>Email</label>
-            <input type="email" value={data.email} onChange={(e) => setData({...data, email:e.target.value})} />
-            <label>Password</label>
-            <input type="password" value={data.password} onChange={(e) => setData({...data, password:e.target.value})} />
-            <button type='submit'>Submit</button>
-        </form>
+    <div className="registration-container">
+      <div className="image-section">
+        {/* Background image is set in CSS */}
+      </div>
+      <div className="form-section">
+        <div className="registration-box">
+          <h2>Register</h2>
+          <form onSubmit={registerUser}>
+            <div className="input-group">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={data.firstName}
+                onChange={(e) => setData({ ...data, firstName: e.target.value })}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={data.lastName}
+                onChange={(e) => setData({ ...data, lastName: e.target.value })}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={data.email}
+                onChange={(e) => setData({ ...data, email: e.target.value })}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={data.password}
+                onChange={(e) => setData({ ...data, password: e.target.value })}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={data.confirmPassword}
+                onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
+                required
+              />
+            </div>
+            <button type="submit">Register</button>
+          </form>
+
+          {/* Sign In Link */}
+          <div className="login-redirect">
+            <p>Already have an account? <Link to="/login">Sign In</Link></p>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

@@ -1,0 +1,126 @@
+/* Container for the entire form */
+.questions-container {
+    max-width: 900px;  /* Limiting the max width */
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header Style */
+.questions-header {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #005074; /* Theme color */
+}
+
+/* Form Layout */
+.form-container {
+    width: 100%;
+}
+
+/* Style for each question section */
+.question-section {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+/* Styling for input fields and radio buttons */
+.input-group,
+/* Styling the radio buttons */
+.radio-group {
+    display: flex;
+    flex-direction: column;  /* Stack radio buttons vertically */
+    gap: 10px; /* Add space between radio options */
+}
+
+/* Radio button label styling */
+.radio-label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333; /* Darker text color for better readability */
+    cursor: pointer; /* Make the label clickable */
+}
+
+/* Custom radio button style */
+.radio-label input {
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #005074; /* Border color for the radio button */
+    margin-right: 10px; /* Space between the radio button and label */
+    background-color: white;
+    transition: all 0.3s ease; /* Smooth transition for background and border */
+}
+
+/* When radio button is checked */
+.radio-label input:checked {
+    background-color: #005074; /* Theme color for checked state */
+    border-color: #005074; /* Border color for checked state */
+    box-shadow: 0 0 0 4px rgba(0, 80, 116, 0.2); /* Optional shadow effect on checked */
+}
+
+/* Hover effect for radio button */
+.radio-label input:hover {
+    border-color: #003f50; /* Darker border on hover */
+}
+
+/* Focused state for radio button */
+.radio-label input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #003f50; /* Focused border color */
+    box-shadow: 0 0 0 2px rgba(0, 80, 116, 0.5); /* Focused shadow */
+}
+
+/* For the "checked" state (optional visual cue for accessibility) */
+.radio-label input:checked + span {
+    color: #005074; /* Change the label text color when checked */
+}
+
+/* Navigation buttons layout */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Add space between buttons */
+    margin-top: 20px;
+}
+
+/* Style for all buttons */
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #005074; /* Apply theme color to buttons */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for buttons */
+button:hover {
+    background-color: #003f50; /* Darker shade of theme color on hover */
+}
+
+/* Disabled button style */
+button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Input text color */
+input {
+    color: #333;
+}
+
+/* Adjusting colors for inputs on focus */
+input:focus {
+    border-color: #005074; /* Highlight input border with theme color */
+    outline: none;
+}

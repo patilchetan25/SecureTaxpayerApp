@@ -1,0 +1,85 @@
+/* Full Page Container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-align: center;
+    width: 100%; /* Full width */
+  }
+  
+  /* Welcome Section */
+  .welcome-section {
+    margin-top: 30px;  /* Reduced space from the top of the page */
+    padding: 10px;
+  }
+  
+  .client-name {
+    font-weight: bold;
+    color: #005074;
+  }
+  
+  .fw-bold {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  /* Icons Section - Questions and Documents */
+  .icons-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;  /* Space between the icons */
+    margin-top: 50px;
+  }
+  
+  .dashboard-icons-wrap {
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .icon {
+    width: 100px; /* Adjusted icon size to smaller */
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px; /* Reduced margin between icon and label */
+  }
+  
+  .icon-label {
+    font-weight: bold;
+    font-size: 16px;  /* Slightly smaller font size */
+    color: #333;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 700px) {
+    .icons-section {
+      flex-direction: column;  /* Stack icons vertically on mobile */
+      gap: 15px;  /* Reduced space between icons on mobile */
+    }
+  
+    .icon {
+      width: 90px;  /* Slightly smaller icons on mobile */
+      height: 90px;
+    }
+  
+    .icon-label {
+      font-size: 14px;  /* Smaller font size on mobile */
+    }
+  }
+  
+  @media (max-width: 1024px) and (min-width: 701px) {
+    .icons-section {
+      gap: 15px;  /* Slightly tighter gap for tablets */
+    }
+  
+    .icon {
+      width: 95px;  /* Moderate icon size for tablets */
+      height: 95px;
+    }
+  }
+  

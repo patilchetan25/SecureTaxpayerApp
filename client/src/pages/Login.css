@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #eaeaea; /* Light background for the whole page */
+}
+
+.login-container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    color: #005074;
+    width: 100%;
+}
+
+.image-section {
+    flex: 1; /* Takes half of the container */
+    background-image: url('../assets/login.png'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5); /* Dark overlay effect */
+}
+
+.form-section {
+    flex: 1; /* Takes half of the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff; /* White background for form section */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.login-box {
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px; /* Increased max-width for a larger box */
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    text-align: center; /* Center the text */
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px; /* Increased font size */
+    color: #005074; /* Consistent color with the theme */
+}
+
+.input-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+label {
+    margin-bottom: 5px;
+    display: block;
+    font-weight: bold; /* Bold labels for emphasis */
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s; /* Transition for focus effect */
+}
+
+input:focus {
+    border-color: #005074; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Style for Login and Register buttons */
+button {
+    padding: 10px;
+    background-color: #005074;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40%;
+    margin-left: 10px;
+    margin-top: 20px; /* Space above the button */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+button:hover {
+    background-color: #007c92; /* Slightly lighter color on hover */
+}
+
+/* Apply space between Login and Register buttons */
+button.register-button {
+    margin-top: 15px; /* Add space between buttons */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .login-container {
+        flex-direction: column; /* Stack on smaller screens */
+    }
+
+    .image-section {
+        height: 50vh; /* Set height for mobile view */
+    }
+
+    .form-section {
+        height: auto; /* Auto height for mobile view */
+        padding: 10px; /* Add some padding */
+    }
+
+    .login-box {
+        width: 100%; /* Full width for smaller screens */
+    }
+}

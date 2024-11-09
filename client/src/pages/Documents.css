@@ -1,0 +1,81 @@
+.documents-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Full height */
+    width: 100%; /* Full width */
+    padding: 20px; /* Padding around the container */
+    box-sizing: border-box; /* Include padding in height calculations */
+}
+
+.upload-section {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin-bottom: 20px; /* Space between upload section and table */
+    padding: 20px;
+    border: 1px solid #005074; /* Border using theme color */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.file-upload {
+    display: flex; /* Align items in a row */
+    gap: 10px; /* Space between the file input and button */
+}
+
+.file-input {
+    padding: 5px; /* Padding for file input */
+    font-size: 0.9em; /* Smaller font size */
+}
+
+.upload-button {
+    background-color: #005074; /* Theme color */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px 10px; /* Smaller button padding */
+    cursor: pointer; /* Pointer on hover */
+    font-size: 0.9em; /* Smaller font size */
+}
+
+.upload-button:hover {
+    background-color: #003d5b; /* Darker shade on hover */
+}
+
+.table-container {
+    max-height: 400px; /* Set a maximum height for the table container */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #005074; /* Border for the table container */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.file-table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Remove space between borders */
+}
+
+.file-table th, .file-table td {
+    border: 1px solid #005074; /* Border color */
+    padding: 10px; /* Padding inside cells */
+    text-align: left; /* Align text to the left */
+}
+
+.file-table th {
+    background-color: #005074; /* Header background color */
+    color: white; /* Header text color */
+}
+
+.file-table tr:nth-child(even) {
+}
+
+.download-button {
+    background-color: #005074; /* Primary button color */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px 10px; /* Button padding */
+    cursor: pointer; /* Pointer on hover */
+}
+
+.download-button:hover {
+    background-color: #005074; /* Darker blue on hover */
+}
