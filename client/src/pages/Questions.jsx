@@ -11,6 +11,21 @@ const Questions = () => {
     const [step, setStep] = useState(1); // Track the current step in the form
     const [isMarried, setIsMarried] = useState(false); // To toggle spouse questions
 
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                    setFormData(userInfo);
+                    if(userInfo.maritalStatus == 'Married'){
+                        setIsMarried(true);
+                    }
+            } catch (error) {
+                console.error('Error while getting user:', error);
+            }
+        };
+
+        fetchUserData();
+    }, []); // Empty dependency array means this will run once on component mount
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -38,6 +53,7 @@ const Questions = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const userInfo = JSON.parse(localStorage.getItem('user'));
             const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
             toast.success('User updated successfully!');
             console.log('Updated user:', response.data);

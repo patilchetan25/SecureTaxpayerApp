@@ -58,7 +58,7 @@ export default function Navbar() {
     </div>
     <div className="profile-dropdown" ref={menuRef}>
       <div className="avatar" onClick={toggleLogoutMenu}>
-        {userInfo && userInfo.firstName[0] + userInfo.lastName[0]}
+        {userInfo && userInfo.firstName  && userInfo.lastName && userInfo.firstName[0] + userInfo.lastName[0]}
       </div>
       {showLogoutMenu && (
         <div className="logout-menu show">
