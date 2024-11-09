@@ -32,7 +32,9 @@ function App() {
       <div className={`cp-main-wrapper ${isHeaderVisible ? '' : 'no-header'}`}>
         {isHeaderVisible && (
           <div className="cp-header-wrap">
+            <ProtectedRoute>
             <Navbar />
+            </ProtectedRoute>
           </div>
         )}
         <div className="cp-content-wrap">

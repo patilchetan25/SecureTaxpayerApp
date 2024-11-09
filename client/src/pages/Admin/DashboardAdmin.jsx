@@ -12,9 +12,9 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import DocumentActions from './DocumentactionsAdmin';
 
 export default function DashboardAdmin() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout , userInfo} = useAuth();
   const navigate = useNavigate();
-  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+  const user = userInfo
 
   const [data, setData] = useState([]); 
   const [isModalOpen, setIsModalOpen] = useState(false);

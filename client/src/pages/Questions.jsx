@@ -3,33 +3,13 @@ import axios from 'axios';
 import InputMask from 'react-input-mask'; // Import InputMask
 import './Questions.css';  // Importing the CSS file for styling
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/authContext';
 
 const Questions = () => {
-    const [userInfo, setUserInfo] = useState(null);
+    const { userInfo } = useAuth();
     const [formData, setFormData] = useState({});
     const [step, setStep] = useState(1); // Track the current step in the form
     const [isMarried, setIsMarried] = useState(false); // To toggle spouse questions
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const userInfo = JSON.parse(localStorage.getItem('user'));
-                
-                if (userInfo && userInfo.email) {
-                    const response = await axios.get(`http://localhost:8000/getUserById/${userInfo.email}`);
-                    setUserInfo(response.data.user);
-                    setFormData(response.data.user);
-                    if(response.data.user.maritalStatus == 'Married'){
-                        setIsMarried(true);
-                    }
-                }
-            } catch (error) {
-                console.error('Error while getting user:', error);
-            }
-        };
-
-        fetchUserData();
-    }, []); // Empty dependency array means this will run once on component mount
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -58,7 +38,6 @@ const Questions = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userInfo = JSON.parse(localStorage.getItem('user'));
             const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
             toast.success('User updated successfully!');
             console.log('Updated user:', response.data);

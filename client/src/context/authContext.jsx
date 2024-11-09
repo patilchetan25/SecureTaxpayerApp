@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
             const response = await axios.get('/checkAuth');
             setIsAuthenticated(response.data.authenticated);
             setUserInfo(response.data.user);
-            localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
         } catch (error) {
             setIsAuthenticated(false);
         }
@@ -34,7 +33,6 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
                 toast.success('Login Successfull');
                 setUserInfo(response.data.user);
-                localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
                 if (response.data.user.isAdmin) {
                     navigate('/admin'); // Redirect to the administration panel
                 } else {
@@ -51,9 +49,6 @@ export const AuthProvider = ({ children }) => {
             await axios.post('/logoutUser', {});
             setIsAuthenticated(false);
             setError(null); // Clear any previous errors
-
-            localStorage.removeItem('user');
-            localStorage.removeItem('isAdmin');
         } catch (error) {
             setError("Logout failed: " + error.response?.data?.error || "An error occurred.");
         }
