@@ -21,6 +21,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updateUserInfo = (user) => {
+        setUserInfo(user);
+    }
+
 
     const login = async (credentials) => {
         try {
@@ -70,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userInfo, login, logout, register, error, checkAuth }}>
+        <AuthContext.Provider value={{ isAuthenticated, userInfo, login, logout, register, error, checkAuth,updateUserInfo }}>
             {children}
         </AuthContext.Provider>
     );

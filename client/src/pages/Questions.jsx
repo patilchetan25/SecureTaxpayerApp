@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/authContext';
 
 const Questions = () => {
-    const { userInfo } = useAuth();
+    const { userInfo, updateUserInfo } = useAuth();
     const [formData, setFormData] = useState({});
     const [step, setStep] = useState(1); // Track the current step in the form
     const [isMarried, setIsMarried] = useState(false); // To toggle spouse questions
@@ -53,9 +53,9 @@ const Questions = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userInfo = JSON.parse(localStorage.getItem('user'));
             const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
             toast.success('User updated successfully!');
+            updateUserInfo(response.data)
             console.log('Updated user:', response.data);
         } catch (error) {
             console.error('Error updating user:', error);
