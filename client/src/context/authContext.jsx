@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }) => {
         try {
             await axios.post('/logoutUser', {});
             setIsAuthenticated(false);
+            setUserInfo({})
             setError(null); // Clear any previous errors
         } catch (error) {
             setError("Logout failed: " + error.response?.data?.error || "An error occurred.");
