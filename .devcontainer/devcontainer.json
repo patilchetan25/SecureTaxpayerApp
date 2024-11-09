@@ -1,0 +1,20 @@
+{
+    "name": "MERN Devcontainer",
+    "build": {
+      "dockerfile": "../Dockerfile.dev"
+    },
+    "customizations": {
+      "vscode": {
+          "extensions": [
+              "ms-azuretools.vscode-docker"
+          ],
+          "settings": {}
+      }
+    },
+    "forwardPorts": [
+      "8000:8000"  // express
+    ],
+    "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
+    "workspaceFolder": "/app",
+    "runArgs": []
+}
