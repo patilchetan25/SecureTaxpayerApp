@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const response = await axios.post('/loginUser', credentials);
-            console.log("info");
             if (response.data.error) {
                 setIsAuthenticated(false);
                 toast.error(response.data.error);

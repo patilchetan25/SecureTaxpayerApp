@@ -105,14 +105,31 @@ const loginUser = async (req, res) => {
         //check if user exist
         const user = await User.findOne({ email })
         if (!user) {
-            return res.json({ error: "User not found" })
+            return res.json({ error: "Incorrect credentials" })
+        }
+
+        // Check if the account is locked
+        if (user.lockUntil && user.lockUntil > Date.now()) {
+            return res.json({ error: "Account is locked. Please Try again in 30 minutes." });
         }
 
         //check if password match
-        const match = await comparePassword(password, user.password)
+        const match = await comparePassword(password, user.password);
         if (!match) {
-            return res.json({ error: "Password is incorrect" })
+            user.failedAttempts = (user.failedAttempts || 0) + 1;
+
+            // Lock account if failed attempts exceed 3
+            if (user.failedAttempts >= 3) {
+                user.lockUntil = new Date(Date.now() + 30 * 60 * 1000); // Lock for 30 minutes
+            }
+
+            await user.save();
+            return res.json({ error: "Incorrect credentials" });
         } else {
+
+            user.failedAttempts = 0;
+
+            await user.save();
             
             const payload = {
                 email: user.email,
