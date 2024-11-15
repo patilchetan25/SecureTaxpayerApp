@@ -40,7 +40,7 @@ const Documents = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:8000/download/${userInfo.email}/${file.filename}`, {
+            const response = await axios.get(`http://localhost:8000/download/${file.filename}`, {
                 responseType: 'blob',
             });
 
@@ -61,7 +61,7 @@ const Documents = () => {
 
     const fetchFiles = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/files/${userInfo.email}`);
+            const response = await axios.get('http://localhost:8000/files');
             setFileList(response.data);
         } catch (error) {
             console.error('Error fetching files:', error);

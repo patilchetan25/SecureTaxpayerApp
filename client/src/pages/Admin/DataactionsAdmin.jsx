@@ -34,10 +34,11 @@ export default function Dataactions({ isOpen, onClose, onSave, formData, handleI
         <TextField
           margin="dense"
           label="Phone"
-          type="text"
+          type="Number"
           fullWidth
           value={formData.phoneNumber || ''}
           onChange={(e) => handleInputChange({ ...formData, phoneNumber: e.target.value })}
+          inputProps={{ maxLength: 10 }} // Limit to 10 digits
         />
         <TextField
           margin="dense"
@@ -47,14 +48,55 @@ export default function Dataactions({ isOpen, onClose, onSave, formData, handleI
           value={formData.email || ''}
           onChange={(e) => handleInputChange({ ...formData, email: e.target.value })}
         />
+
         <TextField
           margin="dense"
-          label="Gender"
+          label="City"
           type="text"
           fullWidth
-          value={formData.gender || ''}
-          onChange={(e) => handleInputChange({ ...formData, gender: e.target.value })}
+          value={formData.city || ''}
+          onChange={(e) => handleInputChange({ ...formData, city: e.target.value })}
         />
+
+        <TextField
+          margin="dense"
+          label="State"
+          type="text"
+          fullWidth
+          value={formData.state || ''}
+          onChange={(e) => handleInputChange({ ...formData, state: e.target.value })}
+        />
+
+        <TextField
+          margin="dense"
+          label="dateOfBirth"
+          type="date"
+          fullWidth
+          value={formData.dateOfBirth || ''}
+          onChange={(e) => handleInputChange({ ...formData, dateOfBirth: e.target.value })}
+        />
+
+       <TextField
+          margin="dense"
+          label="streetAddress"
+          type="text"
+          fullWidth
+          value={formData.streetAddress || ''}
+          onChange={(e) => handleInputChange({ ...formData, streetAddress: e.target.value })}
+        />
+
+        <TextField
+          margin="dense"
+          label="Zip Code"
+          type="Number"
+          fullWidth
+          value={formData.zipCode || ''}
+          onChange={(e) => handleInputChange({ ...formData, zipCode: e.target.value })}
+        />
+
+
+
+        
       </DialogContent>
       <DialogActions>
         <Button 

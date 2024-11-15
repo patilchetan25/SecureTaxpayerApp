@@ -53,7 +53,7 @@ const Questions = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
+            const response = await axios.post('http://localhost:8000/saveTaxpayerQuestions', formData);
             toast.success('User updated successfully!');
             updateUserInfo(response.data)
             console.log('Updated user:', response.data);
