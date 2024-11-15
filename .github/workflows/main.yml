@@ -9,7 +9,7 @@ env:
   GAR_NAME: tax-deploy
   GAR_LOCATION: us-east1
   SERVICE: auto-deploy-helper
-  REGION: us-east1
+  REGION: us-central1
 
 jobs:
   deploy:
