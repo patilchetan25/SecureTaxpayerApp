@@ -16,7 +16,8 @@ const Questions = () => {
                 const userInfo = JSON.parse(localStorage.getItem('user'));
                 
                 if (userInfo && userInfo.email) {
-                    const response = await axios.get(`http://localhost:8000/getUserById/${userInfo.email}`);
+                    // const response = await axios.get(`http://localhost:8000/getUserById/${userInfo.email}`);
+                    const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/getUserById/${userInfo.email}`);
                     setUserInfo(response.data.user);
                     setFormData(response.data.user);
                     if(response.data.user.maritalStatus == 'Married'){
@@ -59,7 +60,8 @@ const Questions = () => {
         e.preventDefault();
         try {
             const userInfo = JSON.parse(localStorage.getItem('user'));
-            const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
+            // const response = await axios.post(`http://localhost:8000/saveTaxpayerQuestions/${userInfo.email}`, formData);
+            const response = await axios.post(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/saveTaxpayerQuestions/${userInfo.email}`, formData);
             toast.success('User updated successfully!');
             console.log('Updated user:', response.data);
         } catch (error) {

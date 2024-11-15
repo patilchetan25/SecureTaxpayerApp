@@ -20,7 +20,8 @@ const Documents = () => {
         formData.append('userEmail', userEmail);
 
         try {
-            const response = await axios.post('http://localhost:8000/upload', formData, {
+            // const response = await axios.post('http://localhost:8000/upload', formData, {
+            const response = await axios.post('https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
