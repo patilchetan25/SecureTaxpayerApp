@@ -10,8 +10,24 @@ mongoose.connect(process.env.MONGO_URL)
 .then(() =>  console.log('DB Connected'))
 .catch((error)  => console.log(error))
 
+const allowedOrigins = [
+    'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/', // frontend's actual domain
+    'http://localhost:8000' // local development
+];
+
 //middleware
-app.use(cors())
+app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'The CORS policy for this site does not allow access from your specified Origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true
+  }));
 app.use(express.json());
 app.use(express.static('../client/dist'));
 app.use(cookieParser());
