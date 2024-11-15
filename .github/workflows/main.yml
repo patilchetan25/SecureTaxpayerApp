@@ -5,9 +5,9 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_ID: secure-taxpayer-application 
+  PROJECT_ID: secure-taxpayer-application
   GAR_NAME: tax-deploy
-  GAR_LOCATION: us-east1-docker.pkg.dev/secure-taxpayer-application/tax-deploy
+  GAR_LOCATION: us-east1
   SERVICE: auto-deploy-helper
   REGION: us-east1
 
