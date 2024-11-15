@@ -12,7 +12,8 @@
       }
     },
     "forwardPorts": [
-      "8000:8000"  // express
+      "8000:8000",  // express
+      "5173:5173"  // vite
     ],
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
     "workspaceFolder": "/app",

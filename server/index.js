@@ -1,3 +1,4 @@
+const path = require("path")
 const express = require('express')
 const dotenv = require('dotenv').config()
 const cors = require('cors')
@@ -11,10 +12,16 @@ mongoose.connect(process.env.MONGO_URL)
 
 //middleware
 app.use(express.json());
+app.use(express.static('../client/dist'));
 app.use(cookieParser());
 app.use(express.urlencoded({extended:false}))
 
 app.use('/', require('./routes/authRoutes'))
+app.use(express.static(path.resolve(__dirname, "dist")))
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist/index.html"))
+})
 
 const port = 8000;
 
