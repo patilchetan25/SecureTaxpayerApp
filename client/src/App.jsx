@@ -13,7 +13,8 @@ import Documents from './pages/Documents';
 import Questions from './pages/Questions';
 import DashboardAdmin from './pages/Admin/DashboardAdmin';
 
-axios.defaults.baseURL = 'http://localhost:8000';
+// axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/';
 axios.defaults.withCredentials = true;
 
 function App() {

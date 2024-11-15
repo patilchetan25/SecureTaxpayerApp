@@ -10,11 +10,6 @@ mongoose.connect(process.env.MONGO_URL)
 .then(() =>  console.log('DB Connected'))
 .catch((error)  => console.log(error))
 
-const allowedOrigins = [
-    'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/', // frontend's actual domain
-    'http://localhost:8000' // local development
-];
-
 //middleware
 app.use(cors({
     origin: ['https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app', 'http://localhost:8000'],

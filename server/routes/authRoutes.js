@@ -8,7 +8,7 @@ const adminMiddleware = require('../middleware/adminMiddleware');
 //middleware
 router.use(
     cors({
-        origin: [process.env.CORS_ORIGIN || 'http://localhost:5173'],
+        origin: [process.env.CORS_ORIGIN || 'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/' || 'http://localhost:5173'],
         credentials: true
     })
 )
