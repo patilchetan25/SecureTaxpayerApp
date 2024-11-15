@@ -41,7 +41,8 @@ const Documents = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:8000/download/${userEmail}/${file.filename}`, {
+            // const response = await axios.get(`http://localhost:8000/download/${userEmail}/${file.filename}`, {
+            const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/download/${userEmail}/${file.filename}`, {
                 responseType: 'blob',
             });
 
@@ -62,7 +63,8 @@ const Documents = () => {
 
     const fetchFiles = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/files/${userEmail}`);
+            // const response = await axios.get(`http://localhost:8000/files/${userEmail}`);
+            const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/files/${userEmail}`);
             setFileList(response.data);
         } catch (error) {
             console.error('Error fetching files:', error);
