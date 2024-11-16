@@ -24,6 +24,7 @@ const Questions = () => {
                     if(userInfo.maritalStatus == 'Married'){
                         setIsMarried(true);
                     }
+                }
             } catch (error) {
                 console.error('Error while getting user:', error);
             }
