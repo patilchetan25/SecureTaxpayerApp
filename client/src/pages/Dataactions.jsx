@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Documents.css';
+import { useAuth } from '../context/authContext';
 
 const Documents = () => {
     const [file, setFile] = useState(null);
     const [fileList, setFileList] = useState([]);
+    const { userInfo } = useAuth();
 
-    const userEmail = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).email : null;
+    const userEmail = userInfo.email;
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);

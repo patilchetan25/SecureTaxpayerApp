@@ -14,7 +14,7 @@ export const ProtectedRoute = ({ children }) => {
         };
 
         verifyAuth();
-    }, [checkAuth]);
+    }, []); // Empty dependency array to run the effect once on mount
 
     if (loading) {
         return <div>Loading...</div>; // Or a spinner/loading component
@@ -28,10 +28,10 @@ export const ProtectedRoute = ({ children }) => {
 };
 
 export const AdminProtectedRoute = ({ children }) => {
-    const { isAuthenticated, checkAuth } = useAuth();
+    const { isAuthenticated, checkAuth, userInfo } = useAuth();
     const location = useLocation();
     const [loading, setLoading] = useState(true);
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    const isAdmin = (userInfo && userInfo.isAdminUser == true) ? true : false // Check if the user is admin
 
     useEffect(() => {
         const verifyAuth = async () => {
@@ -40,7 +40,7 @@ export const AdminProtectedRoute = ({ children }) => {
         };
 
         verifyAuth();
-    }, [checkAuth]);
+    }, []); // Empty dependency array to run the effect once on mount
 
     if (loading) {
         return <div>Loading...</div>;

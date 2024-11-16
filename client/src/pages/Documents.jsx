@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Documents.css';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/authContext';
 
 const Documents = () => {
     const [file, setFile] = useState(null);
     const [fileList, setFileList] = useState([]);
-
-    const userEmail = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).email : null;
+    const { userInfo } = useAuth();
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -17,7 +17,7 @@ const Documents = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('userEmail', userEmail);
+        formData.append('userEmail', userInfo.email);
 
         try {
             // const response = await axios.post('http://localhost:8000/upload', formData, {
@@ -41,8 +41,8 @@ const Documents = () => {
         }
 
         try {
-            // const response = await axios.get(`http://localhost:8000/download/${userEmail}/${file.filename}`, {
-            const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/download/${userEmail}/${file.filename}`, {
+            // const response = await axios.get(`http://localhost:8000/download/${file.filename}`, {
+            const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/download/${file.filename}`, {
                 responseType: 'blob',
             });
 
@@ -63,8 +63,8 @@ const Documents = () => {
 
     const fetchFiles = async () => {
         try {
-            // const response = await axios.get(`http://localhost:8000/files/${userEmail}`);
-            const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/files/${userEmail}`);
+            // const response = await axios.get('http://localhost:8000/files');
+            const response = await axios.get('https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/files');
             setFileList(response.data);
         } catch (error) {
             console.error('Error fetching files:', error);
@@ -73,10 +73,10 @@ const Documents = () => {
     };
 
     useEffect(() => {
-        if (userEmail) {
+        if (userInfo.email) {
             fetchFiles(); // Fetch files on component mount
         }
-    }, [userEmail]);
+    }, [userInfo.email]);
 
     return (
         <div className="documents-container">
