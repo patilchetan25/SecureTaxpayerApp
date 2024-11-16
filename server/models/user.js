@@ -72,6 +72,13 @@ const userSchema = new Schema({
     "spouseCity": {
       "type": "String"
     },
+    "failedAttempts": {
+      "type": "Number",
+      "default": "0" // Valor inicial
+    },
+    "lockUntil": {
+      "type": "Date"
+    },
   }
   )
 

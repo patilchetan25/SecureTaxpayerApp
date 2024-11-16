@@ -3,28 +3,17 @@ import { Link } from 'react-router-dom';  // Import Link for routing
 import questionnaireImg from '../assets/Questionnaire.png';  // Importing the icon for Questionnaire
 import documentsImg from '../assets/questions and documents.png';  // Importing the icon for Documents
 import './Dashboard.css';  // Add custom styles for the dashboard
+import { useAuth } from '../context/authContext';
 
 const Dashboard = () => {
   const [user, setUserData] = useState({});
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userInfo = JSON.parse(localStorage.getItem('user'));
-        setUserData(userInfo);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+  const { userInfo } = useAuth();
 
   return (
     <div className="dashboard-container">
       {/* Welcome Section */}
       <div className="welcome-section">
-        <h3>Welcome, <span className="client-name">{user.firstName} {user.lastName}!</span></h3>
+        <h3>Welcome, <span className="client-name">{userInfo.firstName} {userInfo.lastName}!</span></h3>
         <p>You are now connected to Secure Taxpayer Application</p>
         <p className="fw-bold">Let's get started!</p>
       </div>

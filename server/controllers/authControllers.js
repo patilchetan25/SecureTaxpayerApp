@@ -105,19 +105,36 @@ const loginUser = async (req, res) => {
         //check if user exist
         const user = await User.findOne({ email })
         if (!user) {
-            return res.json({ error: "User not found" })
+            return res.json({ error: "Incorrect credentials" })
+        }
+
+        // Check if the account is locked
+        if (user.lockUntil && user.lockUntil > Date.now()) {
+            return res.json({ error: "Account is locked. Please Try again in 30 minutes." });
         }
 
         //check if password match
-        const match = await comparePassword(password, user.password)
+        const match = await comparePassword(password, user.password);
         if (!match) {
-            return res.json({ error: "Password is incorrect" })
+            user.failedAttempts = (user.failedAttempts || 0) + 1;
+
+            // Lock account if failed attempts exceed 3
+            if (user.failedAttempts >= 3) {
+                user.lockUntil = new Date(Date.now() + 30 * 60 * 1000); // Lock for 30 minutes
+            }
+
+            await user.save();
+            return res.json({ error: "Incorrect credentials" });
         } else {
+
+            user.failedAttempts = 0;
+
+            await user.save();
             
             const payload = {
                 email: user.email,
                 id: user._id,
-                isAdmin: user.isAdminUser
+                isAdminUser: user.isAdminUser
             };
 
 
@@ -128,7 +145,7 @@ const loginUser = async (req, res) => {
                     user: {
                         email: user.email,
                         id: user._id,
-                        isAdmin: user.isAdminUser
+                        isAdminUser: user.isAdminUser
                     }
                 });
             })
@@ -186,7 +203,7 @@ const checkAuth = async (req, res) => {
 const getUserById = async (req, res) => {
     try {
         // Extract userId from the URL params
-        const { email } = req.params;
+        const email = req.user.email;
 
         // Fetch the full user document by userId from the database
         const user = await User.findOne({email});
@@ -213,7 +230,7 @@ const saveTaxpayerQuestions = async (req, res) => {
         } = req.body;
 
         // Extract the user's email or userId from params or body to locate the user (can also use _id if using MongoDB)
-        const { email } = req.params;  // Assuming you are using a userId to find the user
+        const email = req.user.email;  // Assuming you are using a userId to find the user
 
         // Validate that the user exists in the database
         const user = await User.findOne({email});
@@ -271,7 +288,9 @@ const logoutUser = async (req, res) => {
 const uploadFile = async (req, res) => {
     try {
         const file = req.file; // Access the uploaded file
-        const email = req.body.userEmail; // Ensure you're using userEmail
+        //const email = req.body.userEmail; // Ensure you're using userEmail
+        const email = req.user.email;
+        
 
         if (!file) {
             return res.status(400).json({ error: 'No file uploaded' });
@@ -302,7 +321,8 @@ const uploadFile = async (req, res) => {
 };
 
 const downloadFile = async (req, res) => {
-    const { email, filename } = req.params; // Get the email and filename from the request params
+    const email = req.user.email;
+    const { filename } = req.params; // Get the email and filename from the request params
 
     try {
         // Find the file by user email and filename
@@ -330,7 +350,8 @@ const downloadFile = async (req, res) => {
 // Get files by user email
 const getFileList = async (req, res) => {
     try {
-        const { email } = req.params;
+        //const { email } = req.params;
+        const email = req.user.email;
         const files = await File.find({ userEmail: email }); // Fetch files for the specified user
         res.json(files);
     } catch (error) {

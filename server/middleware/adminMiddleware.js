@@ -14,7 +14,7 @@ const adminMiddleware = (req, res, next) => {
         }
 
         // Check if the user has administrator permissions
-        if (!user.isAdmin) {
+        if (!user.isAdminUser) {
             return res.status(403).json({ error: 'Access denied, admin only' });
         }
 

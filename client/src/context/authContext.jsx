@@ -7,6 +7,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
     const [error, setError] = useState(null); // State to hold error messages
     const navigate = useNavigate();
 
@@ -14,27 +15,28 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await axios.get('/checkAuth');
             setIsAuthenticated(response.data.authenticated);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-            localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
+            setUserInfo(response.data.user);
         } catch (error) {
             setIsAuthenticated(false);
         }
     };
 
+    const updateUserInfo = (user) => {
+        setUserInfo(user);
+    }
+
 
     const login = async (credentials) => {
         try {
             const response = await axios.post('/loginUser', credentials);
-            console.log("info");
             if (response.data.error) {
                 setIsAuthenticated(false);
                 toast.error(response.data.error);
             } else {
                 setIsAuthenticated(true);
                 toast.success('Login Successfull');
-                localStorage.setItem('user', JSON.stringify(response.data.user));
-                localStorage.setItem('isAdmin', response.data.user.isAdmin); // Guarda si el usuario es admin o no            
-                if (response.data.user.isAdmin) {
+                setUserInfo(response.data.user);
+                if (response.data.user.isAdminUser) {
                     navigate('/admin'); // Redirect to the administration panel
                 } else {
                     navigate('/'); // Redirects to the main page
@@ -49,10 +51,8 @@ export const AuthProvider = ({ children }) => {
         try {
             await axios.post('/logoutUser', {});
             setIsAuthenticated(false);
+            setUserInfo({})
             setError(null); // Clear any previous errors
-
-            localStorage.removeItem('user');
-            localStorage.removeItem('isAdmin');
         } catch (error) {
             setError("Logout failed: " + error.response?.data?.error || "An error occurred.");
         }
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, register, error, checkAuth }}>
+        <AuthContext.Provider value={{ isAuthenticated, userInfo, login, logout, register, error, checkAuth,updateUserInfo }}>
             {children}
         </AuthContext.Provider>
     );

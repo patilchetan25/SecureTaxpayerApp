@@ -19,11 +19,11 @@ router.post('/loginUser', loginUser);
 router.post('/loginAdmin', loginAdmin);
 router.get('/checkAuth', authMiddleware, checkAuth);
 router.post('/logoutUser', authMiddleware, logoutUser);
-router.post('/saveTaxpayerQuestions/:email', saveTaxpayerQuestions);
-router.get('/getUserById/:email', getUserById);
+router.post('/saveTaxpayerQuestions', authMiddleware, saveTaxpayerQuestions);
+router.get('/getUserById', getUserById);
 router.post('/upload', authMiddleware, upload.single('file'), uploadFile);
-router.get('/download/:email/:filename', authMiddleware, downloadFile);
-router.get('/files/:email',authMiddleware, getFileList)
+router.get('/download/:filename', authMiddleware, downloadFile);
+router.get('/files',authMiddleware, getFileList)
 
 
 //admin
