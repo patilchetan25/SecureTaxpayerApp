@@ -20,7 +20,7 @@ const Documents = () => {
         formData.append('userEmail', userInfo.email);
 
         try {
-            const response = await axios.post('http://localhost:8000/upload', formData, {
+            const response = await axios.post('/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -40,7 +40,7 @@ const Documents = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:8000/download/${file.filename}`, {
+            const response = await axios.get(`/download/${file.filename}`, {
                 responseType: 'blob',
             });
 
@@ -61,7 +61,7 @@ const Documents = () => {
 
     const fetchFiles = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/files');
+            const response = await axios.get('/files');
             setFileList(response.data);
         } catch (error) {
             console.error('Error fetching files:', error);
