@@ -42,7 +42,7 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          secrets: |-
+          env_vars: |-
             JWT_SECRET=projects/${{ env.PROJECT_ID }}/secrets/JWT_SECRET
             MONGO_URI=projects/${{ env.PROJECT_ID }}/secrets/MONGO_URI
           service: ${{ env.SERVICE }}
