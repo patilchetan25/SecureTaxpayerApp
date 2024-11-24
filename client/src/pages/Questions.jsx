@@ -140,16 +140,18 @@ const Questions = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            // const response = await axios.post('http://localhost:8000/saveTaxpayerQuestions', formData);
-            const response = await axios.post('https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/saveTaxpayerQuestions', formData);
-            const userInfo = JSON.parse(localStorage.getItem('user'));
-            toast.success('User updated successfully!');
-            updateUserInfo(response.data)
-            console.log('Updated user:', response.data);
-        } catch (error) {
-            console.error('Error updating user:', error);
-            toast.error('An error occurred while updating the user.');
+        if (validateForm()) {
+            try {
+                const response = await axios.post('/saveTaxpayerQuestions', formData);
+                toast.success('User updated successfully!');
+                updateUserInfo(response.data);
+                console.log('Updated user:', response.data);
+            } catch (error) {
+                console.error('Error updating user:', error);
+                toast.error('An error occurred while updating the user.');
+            }
+        } else {
+            toast.error('Please correct the errors before submitting.');
         }
     };
 

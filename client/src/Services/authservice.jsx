@@ -1,11 +1,10 @@
 // services/authService.js
 import axios from 'axios';
-import config from '../../config';
 
 // Verify email with token
 export const verifyEmail = async (token) => {
     try {
-        const response = await axios.get(`${config.apiUrl}/verify-email`, {
+        const response = await axios.get('/verify-email', {
             params: { token }, 
         });
         return response.data; 
@@ -18,7 +17,7 @@ export const verifyEmail = async (token) => {
 // Unlock account with token
 export const unlockAccount = async (token) => {
     try {
-        const response = await axios.get(`${config.apiUrl}/unlock-account`, {
+        const response = await axios.get('/unlock-account', {
             params: { token }, 
         });
         return response.data;

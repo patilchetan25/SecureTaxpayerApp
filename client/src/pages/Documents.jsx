@@ -64,7 +64,7 @@ const Documents = () => {
     const fetchFiles = async () => {
         try {
             // const response = await axios.get('http://localhost:8000/files');
-            const response = await axios.get('https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/files');
+            const response = await axios.get('/files');
             setFileList(response.data);
         } catch (error) {
             console.error('Error fetching files:', error);
