@@ -7,13 +7,9 @@ import toast from 'react-hot-toast';
 export default function Navbar() {
   const [showLogoutMenu, setShowLogoutMenu] = useState(false);
   const { userInfo } = useAuth();
-
-
   const toggleLogoutMenu = () => {
     setShowLogoutMenu((prev) => !prev);
   };
-
-
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const isAdmin = (userInfo && userInfo.isAdminUser == true) ? true : false // Check if the user is admin
@@ -41,6 +37,10 @@ export default function Navbar() {
   }, []);
 
   const menuRef = useRef(null);
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="navbar">

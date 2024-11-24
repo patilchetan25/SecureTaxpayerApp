@@ -76,9 +76,8 @@ const userSchema = new Schema({
       "type": "Number",
       "default": "0" // Valor inicial
     },
-    "lockUntil": {
-      "type": "Date"
-    },
+    "isVerified": { "type": "Boolean"},
+    "isBlocked": { "type": "Boolean", "default": "false" },
   }
   )
 
