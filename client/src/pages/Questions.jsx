@@ -135,7 +135,7 @@ const Questions = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await axios.post('http://localhost:8000/saveTaxpayerQuestions', formData);
+                const response = await axios.post('/saveTaxpayerQuestions', formData);
                 toast.success('User updated successfully!');
                 updateUserInfo(response.data);
                 console.log('Updated user:', response.data);

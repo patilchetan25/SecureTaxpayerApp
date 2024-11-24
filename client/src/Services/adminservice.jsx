@@ -1,11 +1,10 @@
 // services/userService.js
 import axios from 'axios';
-import config from '../../config';
 
 // Function to get the list of users
 export const getUsers = async () => {
     try {
-        const response = await axios.get(`${config.apiUrl}/listUsers`);
+        const response = await axios.get('/listUsers');
         return response.data; // Returns the data obtained
     } catch (error) {
         console.error("Error fetching users:", error);
@@ -16,7 +15,7 @@ export const getUsers = async () => {
 
 export const updateUser = async (id, updatedData) => {
     try {
-        const response = await axios.put(`${config.apiUrl}/updateUser/${id}`, updatedData);
+        const response = await axios.put(`/updateUser/${id}`, updatedData);
         return response.data; // Returns the data obtained
     } catch (error) {
         console.error("Error updating user:", error);
@@ -26,7 +25,7 @@ export const updateUser = async (id, updatedData) => {
 
 export const fetchFiles = async (userEmail) => {
     try {
-        const response = await axios.get(`${config.apiUrl}/filesuser/${userEmail}`);
+        const response = await axios.get(`/filesuser/${userEmail}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching files:', error);
@@ -37,7 +36,7 @@ export const fetchFiles = async (userEmail) => {
 // Function to download a file
 export const downloadFile = async (userEmail, filename, originalname) => {
     try {
-        const response = await axios.get(`${config.apiUrl}/downloadadmin/${userEmail}/${filename}`, {
+        const response = await axios.get(`/downloadadmin/${userEmail}/${filename}`, {
             responseType: 'blob', // Ensures it is downloaded as a binary file
 
         });
