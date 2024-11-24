@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const File = require('../models/file'); // Your file model
-
+const { generateToken, verifyToken } = require('../config/jwt');
+const { sendVerificationEmail, sendUnlockAccountEmail } = require('../config/email');
 
 
 const test = (req, res) => {
@@ -63,8 +64,12 @@ const registerUser = async (req, res) => {
         const hashedPassword = await hashPassword(password);
 
         const user = await User.create({
-            firstName,lastName, email, password: hashedPassword
+            firstName,lastName, email, password: hashedPassword,
+            isVerified: false
         });
+
+        const token = generateToken(user._id); // verification token 
+        await sendVerificationEmail(user.email, token);
 
         return res.json(user);
 
@@ -72,6 +77,59 @@ const registerUser = async (req, res) => {
         console.log(error)
     }
 }
+
+const verifyEmail = async (req, res) => {
+    try {
+        const { token } = req.query;
+
+        if (!token) return res.json({ error: "Token is required" });
+
+        // Decodificar el token
+        const decoded = verifyToken(token);
+        const user = await User.findById(decoded.userId);
+
+        if (!user) return res.json({ error: "Invalid token or user not found" });
+
+        // Actualizar isVerified a true
+        user.isVerified = true;
+        await user.save();
+
+        return res.json({ message: "Email verified successfully. You can now log in." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Verification failed" });
+    }
+};
+
+const unlockAccount = async (req, res) => {
+    try {
+        const { token } = req.query;
+
+        if (!token) return res.status(400).json({ error: "Token is required" });
+
+        // Decodificar el token
+        const decoded = verifyToken(token); // Usa tu función de verificación JWT
+        const user = await User.findById(decoded.userId);
+
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        if (!user.isBlocked) {
+            return res.status(400).json({ error: "Account is not blocked" });
+        }
+
+        // Desbloquear la cuenta
+        user.isBlocked = false;
+        user.failedAttempts = 0;
+        await user.save();
+
+        return res.json({ message: "Account unlocked successfully. You can now log in." });
+    } catch (error) {
+        console.error("Error unlocking account:", error);
+        return res.status(500).json({ error: "Unlocking account failed" });
+    }
+};
+
+
 //Login Admin
 const loginAdmin = async (req, res) => {
     try {
@@ -109,8 +167,26 @@ const loginUser = async (req, res) => {
         }
 
         // Check if the account is locked
-        if (user.lockUntil && user.lockUntil > Date.now()) {
-            return res.json({ error: "Account is locked. Please Try again in 30 minutes." });
+        //if (user.lockUntil && user.lockUntil > Date.now()) {
+        //    return res.json({ error: "Account is locked. Please Try again in 30 minutes." });
+        //}
+        if (!user.isVerified) {
+
+            if(user.isVerified == undefined)
+            {
+                user.isVerified = false
+    
+                const token = generateToken(user._id); // verification token 
+                await sendVerificationEmail(user.email, token);
+                await user.save();
+                return res.json({ error: "Email not verified. Please check your inbox. The verification link is valid for one hour. After that, please contact support for assistance." });
+
+            }
+            return res.json({ error: "Email not verified. Please check your inbox." });
+        }
+
+        if (user.isBlocked) {
+            return res.json({ error: "Your account is blocked. Please check your email to unlock your account." });
         }
 
         //check if password match
@@ -120,7 +196,14 @@ const loginUser = async (req, res) => {
 
             // Lock account if failed attempts exceed 3
             if (user.failedAttempts >= 3) {
-                user.lockUntil = new Date(Date.now() + 30 * 60 * 1000); // Lock for 30 minutes
+                //user.lockUntil = new Date(Date.now() + 30 * 60 * 1000); // Lock for 30 minutes
+                user.isBlocked = true;
+                // send verificaction email
+                const unlockToken = generateToken(user._id);
+                await sendUnlockAccountEmail(user.email, unlockToken);
+                await user.save();
+                return res.json({ error: "Your account has been blocked. The verification link is valid for one hour. After that, please contact support for assistance." });
+            
             }
 
             await user.save();
@@ -373,5 +456,7 @@ module.exports = {
     downloadFile,
     getFileList,
     saveTaxpayerQuestions,
-    getUserById
+    getUserById,
+    verifyEmail, 
+    unlockAccount
 }

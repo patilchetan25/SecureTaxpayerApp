@@ -12,6 +12,8 @@ import { ProtectedRoute, AdminProtectedRoute } from './context/ProtectedRoute';
 import Documents from './pages/Documents';
 import Questions from './pages/Questions';
 import DashboardAdmin from './pages/Admin/DashboardAdmin';
+import EmailVerification from './pages/EmailVerification';
+import UnlockAccount from './pages/UnlockAccount';
 
 // axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.baseURL = 'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/';
@@ -61,6 +63,8 @@ function App() {
               } />
               <Route path="registration" element={<Registration />} />
               <Route path="login" element={<Login />} />
+              <Route path="/verify-email/:token" element={<EmailVerification />} />
+              <Route path="/unlock-account/:token" element={<UnlockAccount />} />
             </Routes>
           </div>
         </div>
