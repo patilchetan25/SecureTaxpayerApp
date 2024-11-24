@@ -15,16 +15,9 @@ const Questions = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userInfo = JSON.parse(localStorage.getItem('user'));
-                
-                if (userInfo && userInfo.email) {
-                    // const response = await axios.get(`http://localhost:8000/getUserById/${userInfo.email}`);
-                    const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/getUserById/${userInfo.email}`);
-                    setUserInfo(response.data.user);
-                    setFormData(userInfo);
-                    if(userInfo.maritalStatus == 'Married'){
-                        setIsMarried(true);
-                    }
+                setFormData(userInfo);
+                if (userInfo.maritalStatus === 'Married') {
+                    setIsMarried(true);
                 }
             } catch (error) {
                 console.error('Error while getting user:', error);
