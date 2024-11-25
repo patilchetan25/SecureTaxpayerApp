@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './../context/authContext';
 import { Link } from 'react-router-dom';  // Import Link from React Router
 import './Registration.css';
+import secureTax from '../assets/SecureTax.png';  // Importing the icon for Questionnaire
 
 export default function Registration() {
   const { register } = useAuth();
@@ -28,7 +29,8 @@ export default function Registration() {
       </div>
       <div className="form-section">
         <div className="registration-box">
-          <h2>Register</h2>
+        <img src={secureTax}></img>
+          <h4>Create Your Account</h4>
           <form onSubmit={registerUser}>
             <div className="input-group">
               <label htmlFor="firstName">First Name</label>

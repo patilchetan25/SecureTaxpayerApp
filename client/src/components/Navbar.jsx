@@ -3,6 +3,8 @@ import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 import toast from 'react-hot-toast';
+import secureTax from '../assets/SecureTax-2.png';  // Importing the icon for Questionnaire
+
 
 export default function Navbar() {
   const [showLogoutMenu, setShowLogoutMenu] = useState(false);
@@ -44,7 +46,7 @@ export default function Navbar() {
 
   return (
     <div className="navbar">
-    <h1>Secure Taxpayer Application</h1>
+      <img src={secureTax}></img>
     <div className="nav-links">
        {/* Render link only if user is admin */}
       {isAdmin && (
