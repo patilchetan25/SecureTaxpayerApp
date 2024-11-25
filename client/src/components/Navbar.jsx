@@ -3,7 +3,7 @@ import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 import toast from 'react-hot-toast';
-import secureTax from '../assets/SecureTax-2.png';  // Importing the icon for Questionnaire
+import secureTax from '../assets/SecureTaxHeader.png';  // Importing the icon for Questionnaire
 
 
 export default function Navbar() {
