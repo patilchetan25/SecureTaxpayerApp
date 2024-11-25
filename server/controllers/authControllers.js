@@ -263,10 +263,15 @@ const checkAuth = async (req, res) => {
                         return res.status(404).json({ authenticated: false, user: null });
                     }
 
+                    const userObject = user.toObject();
+                    delete userObject.password; 
+                    delete userObject.isBlocked; 
+                    delete userObject.isVerified; 
+
                     // If user is found, return the full user object
                     res.json({
                         authenticated: true,
-                        user: user // The whole user object returned from the database
+                        user: userObject // The whole user object returned from the database
                     });
 
                 } catch (dbError) {
