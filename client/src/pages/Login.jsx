@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from './../context/authContext';
-import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import secureTax from '../assets/SecureTax.png';  // Importing the icon for Questionnaire
+
 
 export default function Login() {
   const { isAuthenticated, login, error } = useAuth();
@@ -27,7 +28,9 @@ export default function Login() {
       </div>
       <div className="form-section">
         <div className="login-box">
-          <h2>Login</h2>
+          <img src={secureTax}></img>
+          <h4>Please Log In</h4>
+          <img></img>
           <form onSubmit={loginUser}>
             <div className="input-group">
               <label htmlFor="email">Email</label>
