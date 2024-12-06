@@ -43,8 +43,9 @@ const upload = multer({
 
 
 const registerUser = async (req, res) => {
+    const { firstName,lastName, email, password } = req.body;
     try {
-        const { firstName,lastName, email, password } = req.body;
+        
         //check if name is entered
         if (!firstName) {
             return res.json({ error: "First Name is required" })
@@ -66,15 +67,24 @@ const registerUser = async (req, res) => {
         const user = await User.create({
             firstName,lastName, email, password: hashedPassword,
             isVerified: false
-        });
+        });       
 
         const token = generateToken(user._id); // verification token 
         await sendVerificationEmail(user.email, token);
 
+        
+
         return res.json(user);
 
     } catch (error) {
-        console.log(error)
+        console.error(error); 
+        const user = await User.findOne({ email: email });
+        if (user && user._id) {
+            await User.findByIdAndDelete(user._id);
+            console.log("Usuario eliminado debido a fallo en el envío del correo.");
+        }
+        return res.json({error: "There was an error creating your user, please contact support"});
+        
     }
 }
 
@@ -153,7 +163,7 @@ const loginAdmin = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error)
+        return res.json({error: "There was an error creating your user, please contact support"});
     }
 }
 
@@ -236,7 +246,7 @@ const loginUser = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error)
+        return res.json({error: "There was an error, please contact support"});
     }
 }
 
