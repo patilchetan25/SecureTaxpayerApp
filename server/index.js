@@ -12,7 +12,7 @@ mongoose.connect(process.env.MONGO_URL)
 
 //middleware
 app.use(cors({
-    origin: ['https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app', 'http://localhost:8000'],
+    origin: ['https://securetaxpayer.com/', 'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app', 'http://localhost:8000'],
     credentials: true
   }));
 app.use(express.json());
