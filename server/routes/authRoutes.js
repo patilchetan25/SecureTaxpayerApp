@@ -13,7 +13,12 @@ router.use(
     })
 )
 
-router.get('/', test)
+router.get('/', (req, res) => {
+    res.redirect('/login');
+});
+router.all('*', (req, res) => {
+    res.redirect('/'); // Redirects all undefined routes to the home route
+});
 router.post('/registerUser', registerUser);
 router.post('/loginUser', loginUser);
 router.post('/loginAdmin', loginAdmin);
