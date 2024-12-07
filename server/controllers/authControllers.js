@@ -324,7 +324,8 @@ const saveTaxpayerQuestions = async (req, res) => {
             firstName, lastName,
             phoneNumber, ssn, streetAddress, zipCode, state, city, dateOfBirth,
             maritalStatus, filingStatus,
-            spouseSSN, spouseFirstName, spouseLastName, spouseDateOfBirth, spousePhoneNumber, spouseStreetAddress
+            spouseSSN, spouseFirstName, spouseLastName, spouseDateOfBirth, spousePhoneNumber, spouseStreetAddress,
+            spouseZipCode,spouseState,spouseCity
         } = req.body;
 
         // Extract the user's email or userId from params or body to locate the user (can also use _id if using MongoDB)
@@ -358,7 +359,12 @@ const saveTaxpayerQuestions = async (req, res) => {
             if (spouseDateOfBirth) user.spouseDateOfBirth = spouseDateOfBirth;
             if (spousePhoneNumber) user.spousePhoneNumber = spousePhoneNumber;
             if (spouseStreetAddress) user.spouseStreetAddress = spouseStreetAddress;
+            if (spouseZipCode) user.spouseZipCode = spouseZipCode;
+            if (spouseState) user.spouseState = spouseState;
+            if (spouseCity) user.spouseCity = spouseCity;
         }
+
+        user.isSubmitted = true;
 
         // Save the updated user document
         await user.save();
