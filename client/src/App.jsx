@@ -16,7 +16,8 @@ import EmailVerification from './pages/EmailVerification';
 import UnlockAccount from './pages/UnlockAccount';
 
 // axios.defaults.baseURL = 'http://localhost:8000';
-axios.defaults.baseURL = 'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/';
+// axios.defaults.baseURL = 'https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/';
+axios.defaults.baseURL = 'https://securetaxpayer.com/';
 axios.defaults.withCredentials = true;
 
 function App() {
