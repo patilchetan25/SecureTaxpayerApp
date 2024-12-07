@@ -6,16 +6,19 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/authContext';
 
 const Questions = () => {
-    const { userInfo, updateUserInfo } = useAuth();
+    const { userInfo, updateUserInfo , checkAuth} = useAuth();
     const [formData, setFormData] = useState({});
     const [step, setStep] = useState(1); // Track the current step in the form
     const [isMarried, setIsMarried] = useState(false); // To toggle spouse questions
     const [errors, setErrors] = useState({}); // Track errors for validation
+    const [isSubmitted, setIsSubmitted] = useState(false); // Track if the form is submitted
+
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 setFormData(userInfo);
+                setIsSubmitted(userInfo.isSubmitted)
                 if (userInfo.maritalStatus === 'Married') {
                     setIsMarried(true);
                 }
@@ -34,6 +37,12 @@ const Questions = () => {
             [name]: value,
         });
     };
+
+    const handleEdit = () => {
+        setIsSubmitted(false); // Set the form to not submitted when editing
+        setStep(1); // Go back to the first step of the form
+    };
+
 
     const handleRadioChange = (e) => {
         const { name, value } = e.target;
@@ -107,8 +116,8 @@ const Questions = () => {
             if (!formData.spouseLastName) {
                 newErrors.spouseLastName = 'Spouse last name is required';
             }
-            if (!formData.spouseDob) {
-                newErrors.spouseDob = 'Spouse date of birth is required';
+            if (!formData.spouseDateOfBirth) {
+                newErrors.spouseDateOfBirth = 'Spouse date of birth is required';
             }
             if (!formData.spousePhoneNumber) {
                 newErrors.spousePhoneNumber = 'Spouse Phone number is required';
@@ -138,6 +147,8 @@ const Questions = () => {
                 const response = await axios.post('/saveTaxpayerQuestions', formData);
                 toast.success('User updated successfully!');
                 updateUserInfo(response.data);
+                setIsSubmitted(true); // Set the form as submitted
+                await checkAuth();
                 console.log('Updated user:', response.data);
             } catch (error) {
                 console.error('Error updating user:', error);
@@ -179,11 +190,52 @@ const Questions = () => {
     return (
         <div className="questions-container">
             <h2 className="questions-header">Tax Return Information</h2>
+            {isSubmitted ? (
+                <div className="summary-section">                
+                {/* Marital Status Section */}
+                <div className="summary-item">
+                    <h4>1. Marital Status:</h4>
+                    <p>{formData.maritalStatus}</p>
+                </div>
+                
+                {/* Filing Status (only if Married) */}
+                {formData.maritalStatus === 'Married' && (
+                    <div className="summary-item">
+                        <h4>2. Filing Status:</h4>
+                        <p>{formData.filingStatus}</p>
+                    </div>
+                )}
+            
+                {/* Taxpayer Information Section */}
+                <div className="summary-item">
+                   <h4>{isMarried ? "3. Taxpayer Information" : "2. Taxpayer Information"}</h4>
+                    <p><strong>Name:</strong> {formData.firstName} {formData.lastName}</p>
+                    <p><strong>Date of Birth:</strong> {formData.dateOfBirth}</p>
+                    <p><strong>Phone Number:</strong> {formData.phoneNumber}</p>
+                    <p><strong>Address:</strong> {formData.streetAddress}, {formData.city}, {formData.state}, {formData.zipCode}</p>
+                </div>
+                
+                {/* Spouse Information Section (only if Married) */}
+                {formData.maritalStatus === 'Married' && (
+                    <div className="summary-item">
+                        <h4>4. Spouse Information:</h4>
+                        <p><strong>Name:</strong> {formData.spouseFirstName} {formData.spouseLastName}</p>
+                        <p><strong>Date of Birth:</strong> {formData.spouseDateOfBirth}</p>
+                        <p><strong>Phone Number:</strong> {formData.spousePhoneNumber}</p>
+                        <p><strong>Address:</strong> {formData.spouseStreetAddress}, {formData.spouseCity}, {formData.spouseState}, {formData.spouseZipCode}</p>
+                    </div>
+                )}
+            
+                {/* Edit Button */}
+                <button onClick={handleEdit} className="edit-button">Edit</button>
+            </div>
+            
+            ) : (
             <form onSubmit={handleSubmit} className="form-container">
                 {/* Step 1: Marital Status */}
                 {step === 1 && (
                     <div className="question-section">
-                        <h3>1. Were you single or married as of December 31st, 2023?</h3>
+                        <h3>1. Were you single or married as of December 31st, 2024?</h3>
                         <div className="radio-group">
                             <label className="radio-label">
                                 <input
@@ -397,11 +449,11 @@ const Questions = () => {
                             <label>Date of Birth</label>
                             <input
                                 type="date"
-                                name="spouseDob"
-                                value={formData.spouseDob}
+                                name="spouseDateOfBirth"
+                                value={formData.spouseDateOfBirth}
                                 onChange={handleInputChange}
                             />
-                            {errors.spouseDob && <div className="error-message">{errors.spouseDob}</div>}
+                            {errors.spouseDateOfBirth && <div className="error-message">{errors.spouseDateOfBirth}</div>}
                         </div>
 
                         <div className="input-group">
@@ -473,6 +525,7 @@ const Questions = () => {
                     {step === (isMarried ? 4 : 3) && <button type="submit">Submit</button>}
                 </div>
             </form>
+             )}
         </div>
     );
 };
