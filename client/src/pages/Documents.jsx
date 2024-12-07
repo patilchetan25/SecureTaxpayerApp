@@ -110,7 +110,7 @@ const Documents = () => {
                         {fileList.map((file) => (
                             <tr key={file._id}>
                                 <td>{file.originalname}</td>
-                                <td>{file.createdAt}</td>
+                                <td>{new Date(file.createdAt).toLocaleString()}</td>
                                 <td>
                                     <button onClick={() => handleDownload(file)} className="download-button">Download</button>
                                 </td>
