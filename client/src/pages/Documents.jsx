@@ -20,8 +20,7 @@ const Documents = () => {
         formData.append('userEmail', userInfo.email);
 
         try {
-            // const response = await axios.post('http://localhost:8000/upload', formData, {
-            const response = await axios.post('https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/upload', formData, {
+            const response = await axios.post('https://securetaxpayer.com//upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -41,8 +40,7 @@ const Documents = () => {
         }
 
         try {
-            // const response = await axios.get(`http://localhost:8000/download/${file.filename}`, {
-            const response = await axios.get(`https://auto-deploy-helper-dj2lxga3zq-uc.a.run.app/download/${file.filename}`, {
+            const response = await axios.get(`https://securetaxpayer.com//download/${file.filename}`, {
                 responseType: 'blob',
             });
 
