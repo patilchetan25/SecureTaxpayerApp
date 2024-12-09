@@ -5,7 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const File = require('../models/file'); // Your file model
 const { generateToken, verifyToken } = require('../config/jwt');
-const { sendVerificationEmail, sendUnlockAccountEmail } = require('../config/email');
+const { sendVerificationEmail, sendUnlockAccountEmail, sendTwoFactorCode } = require('../config/email');
 
 
 const test = (req, res) => {
@@ -220,28 +220,45 @@ const loginUser = async (req, res) => {
             return res.json({ error: "Incorrect credentials" });
         } else {
 
-            user.failedAttempts = 0;
-
-            await user.save();
+        
             
+            user.failedAttempts = 0;
+            var code = await sendTwoFactorCode(user.email);
+            user.code2fa = code; 
+            user.code2faUntil = Date.now(); 
+            await user.save();
+
+             // Configure a temporary cookie with the user's email
+            res.cookie('tempEmail', email, {
+              httpOnly: true, // The cookie will not be accessible from the client's JavaScript
+              maxAge: 10 * 60 * 1000, // Expires in 5 minutes (same as 2FA code validity)
+              secure: process.env.NODE_ENV === 'production', // Only on HTTPS if in production
+            });
+
+            res.json({
+              message: "2FA code sent. Please check your email.",
+              twoFactorRequired: true,
+            });
+
+
+            /*
             const payload = {
                 email: user.email,
                 id: user._id,
                 isAdminUser: user.isAdminUser
             };
-
-
             jwt.sign(payload, process.env.JWT_SECRET, {}, (error, token) => {
                 if (error) throw error
                 res.cookie('token', token).json({
                     token,
+                    twoFactorRequired: true, 
                     user: {
                         email: user.email,
                         id: user._id,
                         isAdminUser: user.isAdminUser
                     }
                 });
-            })
+            })*/
         }
 
 
@@ -249,6 +266,49 @@ const loginUser = async (req, res) => {
         return res.json({error: "There was an error, please contact support"});
     }
 }
+
+const validateTwoFactorCode = async (req, res) => {
+    try {
+        const { code } = req.body;
+        const email = req.cookies.tempEmail; // Recover email from cookie
+        
+        if (!email) {
+            return res.status(200).json({ error: "Session expired or no email found. Please log in again." });
+        }
+
+        
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(200).json({ error: "User not found" });
+        }
+
+        // verify the 2FA code
+        if (user.code2fa != code) {
+            return res.status(200).json({ error: "Invalid 2FA code" });
+            
+        }
+
+        if (Date.now() - user.code2faUntil > 5 * 60 * 1000) {
+            return res.status(200).json({ error: "2FA code has expired. Please request a new code." });
+        }
+
+        // Reset 2FA code and delete cookie
+        user.code2fa = null;
+        user.code2faUntil = null;
+        await user.save();
+        res.clearCookie('tempEmail'); // Delete the temporary cookie
+
+        // Create a session token
+        const payload = { email: user.email, id: user._id, isAdminUser: user.isAdminUser };
+        jwt.sign(payload, process.env.JWT_SECRET, {}, (error, token) => {
+            if (error) throw error;
+            res.cookie('token', token).json({ message: "2FA verification successful", user: payload });
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "There was an error, please contact support." });
+    }
+};
 
 
 const checkAuth = async (req, res) => {
@@ -479,5 +539,6 @@ module.exports = {
     saveTaxpayerQuestions,
     getUserById,
     verifyEmail, 
-    unlockAccount
+    unlockAccount, 
+    validateTwoFactorCode
 }

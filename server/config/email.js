@@ -8,6 +8,36 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Function to generate a 6-digit code
+const generateVerificationCode = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString(); // Create a 6 digit random number
+};
+
+// Function to send verification code
+const sendTwoFactorCode = async (email) => {
+  const code = generateVerificationCode(); // Generate the 2FA code
+  
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; text-align: center; color: #333; padding: 20px;">
+      <h1 style="color: #4CAF50;">Your 2FA Code</h1>
+      <p style="font-size: 16px;">Please use the following code to complete your login:</p>
+      <h2 style="font-size: 32px; color: #4CAF50;">${code}</h2>
+      <p style="font-size: 14px; color: #666; margin-top: 20px;">This code will expire in 5 minutes.</p>
+      <p>If you did not request this code, please ignore this email or contact support.</p>
+    </div>
+  `;
+
+  // Send the email
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Your 2FA Code',
+    html: htmlContent,
+  });
+
+  return code; // Return the code to validate in the backend
+};
+
 const sendVerificationEmail = async (email, token) => {
   const verificationLink = `${process.env.BASE_URL}/verify-email/${token}`;
   
@@ -60,4 +90,5 @@ const sendUnlockAccountEmail = async (email, token) => {
 module.exports = {
   sendVerificationEmail,
   sendUnlockAccountEmail,
+  sendTwoFactorCode
 };

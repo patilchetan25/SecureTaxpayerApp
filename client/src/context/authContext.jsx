@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState(null);
     const [error, setError] = useState(null); // State to hold error messages
     const navigate = useNavigate();
+    
 
     const checkAuth = async () => {
         try {
@@ -33,15 +34,40 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(false);
                 toast.error(response.data.error);
             } else {
-                setIsAuthenticated(true);
-                toast.success('Login Successfull');
-                setUserInfo(response.data.user);
-                if (response.data.user.isAdminUser) {
+                //setIsAuthenticated(true);
+                toast.success('Email has been sent successfully');
+                //setUserInfo(response.data.user);
+                if (response.data.twoFactorRequired) {
+                    return { twoFactorRequired: true };
+                }
+                /*if (response.data.user.isAdminUser) {
                     navigate('/admin'); // Redirect to the administration panel
                 } else {
                     navigate('/'); // Redirects to the main page
-                }
+                }*/
             }
+        } catch (error) {
+            setError("Login failed: " + error.response?.data?.error || "An error occurred.");
+        }
+    };
+
+    const verify2FA = async (code) => {
+        try {
+          const response = await axios.post('/validateTwoFactorCode', { code });
+          if (response.data.error) {
+
+            toast.error(response.data.error);
+
+          }else{
+
+            if (response.data.user.isAdminUser) {
+                navigate('/admin'); // Redirect to the administration panel
+            } else {
+                navigate('/'); // Redirects to the main page
+            }
+
+          }
+          //return response.data; // Expected response: { success: true/false }
         } catch (error) {
             setError("Login failed: " + error.response?.data?.error || "An error occurred.");
         }
@@ -73,7 +99,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userInfo, login, logout, register, error, checkAuth,updateUserInfo }}>
+        <AuthContext.Provider value={{ isAuthenticated, userInfo, login, logout, register, error, checkAuth,updateUserInfo, verify2FA }}>
             {children}
         </AuthContext.Provider>
     );
@@ -81,4 +107,5 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
     return useContext(AuthContext);
+    
 };
