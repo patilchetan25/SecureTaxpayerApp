@@ -74,11 +74,19 @@ const userSchema = new Schema({
     },
     "failedAttempts": {
       "type": "Number",
-      "default": "0" // Valor inicial
+      "default": "0" 
     },
     "isVerified": { "type": "Boolean"},
     "isBlocked": { "type": "Boolean", "default": "false" },
     "isSubmitted": { "type": "Boolean", "default": "false" },
+    "code2fa": {
+      "type": "Number",
+      "default": "0" 
+    },
+    "code2faUntil": {
+      "type": "Date",
+      "default": null 
+    },
   }
   )
 
