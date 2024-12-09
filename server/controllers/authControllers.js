@@ -70,7 +70,7 @@ const registerUser = async (req, res) => {
         });       
 
         const token = generateToken(user._id); // verification token 
-        await sendVerificationEmail(user.email, token);
+        await sendVerificationEmail(req, user.email, token);
 
         
 
@@ -187,7 +187,7 @@ const loginUser = async (req, res) => {
                 user.isVerified = false
     
                 const token = generateToken(user._id); // verification token 
-                await sendVerificationEmail(user.email, token);
+                await sendVerificationEmail(req, user.email, token);
                 await user.save();
                 return res.json({ error: "Email not verified. Please check your inbox. The verification link is valid for one hour. After that, please contact support for assistance." });
 
@@ -210,7 +210,7 @@ const loginUser = async (req, res) => {
                 user.isBlocked = true;
                 // send verificaction email
                 const unlockToken = generateToken(user._id);
-                await sendUnlockAccountEmail(user.email, unlockToken);
+                await sendUnlockAccountEmail(req, user.email, unlockToken);
                 await user.save();
                 return res.json({ error: "Your account has been blocked. The verification link is valid for one hour. After that, please contact support for assistance." });
             

@@ -38,8 +38,15 @@ const sendTwoFactorCode = async (email) => {
   return code; // Return the code to validate in the backend
 };
 
-const sendVerificationEmail = async (email, token) => {
-  const verificationLink = `${process.env.BASE_URL}/verify-email/${token}`;
+const sendVerificationEmail = async (req, email, token) => {
+
+  const baseUrl = process.env.NODE_ENV === 'production'
+    ? `${req.protocol}://${req.get('host')}` // production, get from server
+    : process.env.BASE_URL; 
+
+  const verificationLink = `${baseUrl}/verify-email/${token}`;
+  
+  //const verificationLink = `${process.env.BASE_URL}/verify-email/${token}`;
   
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; text-align: center; color: #333; padding: 20px;">
@@ -61,8 +68,15 @@ const sendVerificationEmail = async (email, token) => {
   });
 };
 
-const sendUnlockAccountEmail = async (email, token) => {
-    const unlockLink = `${process.env.BASE_URL}/unlock-account/${token}`;
+const sendUnlockAccountEmail = async (req, email, token) => {
+
+  const baseUrl = process.env.NODE_ENV === 'production'
+    ? `${req.protocol}://${req.get('host')}` // production, get from server
+    : process.env.BASE_URL;  
+
+   const unlockLink = `${baseUrl}/unlock-account/${token}`;
+  
+    //const unlockLink = `${process.env.BASE_URL}/unlock-account/${token}`;
     
     const htmlContent = `
         <div style="font-family: Arial, sans-serif; text-align: center; color: #333; padding: 20px;">
