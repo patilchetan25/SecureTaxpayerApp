@@ -13,6 +13,8 @@ mongoose.connect(process.env.MONGO_URL)
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended:false}))
+require("./middleware/decrypt-payload")(app);
+
 
 app.use('/', require('./routes/authRoutes'))
 

@@ -4,6 +4,8 @@ import InputMask from 'react-input-mask'; // Import InputMask
 import './Questions.css';  // Importing the CSS file for styling
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/authContext';
+import {encryptRequestBody  } from '../Services/encryption.service'
+
 
 const Questions = () => {
     const { userInfo, updateUserInfo , checkAuth} = useAuth();
@@ -144,7 +146,10 @@ const Questions = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await axios.post('/saveTaxpayerQuestions', formData);
+                const encryptedformData = encryptRequestBody(formData);
+                const aesKey = encryptedformData.aesKey;
+                delete encryptedformData.aesKey
+                const response = await axios.post('/saveTaxpayerQuestions', encryptedformData);
                 toast.success('User updated successfully!');
                 updateUserInfo(response.data);
                 setIsSubmitted(true); // Set the form as submitted

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import {encryptRequestBody  } from '../Services/encryption.service'
 
 const AuthContext = createContext();
 
@@ -28,7 +29,10 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const response = await axios.post('/loginUser', credentials);
+            const encryptedLoginCredentials = encryptRequestBody(credentials);
+            const aesKey = encryptedLoginCredentials.aesKey;
+            delete encryptedLoginCredentials.aesKey
+            const response = await axios.post('/loginUser', encryptedLoginCredentials);
             if (response.data.error) {
                 setIsAuthenticated(false);
                 toast.error(response.data.error);
@@ -59,8 +63,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (credentials) => {
+        const encryptedLoginCredentials = encryptRequestBody(credentials);
+        const aesKey = encryptedLoginCredentials.aesKey;
+        delete encryptedLoginCredentials.aesKey
         try {
-            const response = await axios.post('/registerUser', credentials);
+            const response = await axios.post('/registerUser', encryptedLoginCredentials);
             if (response.data.error) {
                 toast.error(response.data.error);
             } else {
