@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from './../context/authContext';
 import { useNavigate } from 'react-router-dom';
 import secureTax from '../assets/SecureTax.png';  // Importing the icon for Questionnaire
-import LoadingModal from '../components/LoadingModal'; // Import the modal component
+import LoadingModal from '../pages/LoadingModal'; // Import the modal component
 
 export default function Login() {
   const { isAuthenticated, login, error, verify2FA } = useAuth();
