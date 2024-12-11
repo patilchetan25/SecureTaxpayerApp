@@ -19,6 +19,8 @@ app.use(express.json());
 app.use(express.static('../client/dist'));
 app.use(cookieParser());
 app.use(express.urlencoded({extended:false}))
+require("./middleware/decrypt-payload")(app);
+
 
 app.use('/', require('./routes/authRoutes'))
 app.use(express.static(path.resolve(__dirname, "dist")))
