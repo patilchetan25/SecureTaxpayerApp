@@ -5,10 +5,12 @@ import { useAuth } from './../context/authContext';
 import { Link } from 'react-router-dom';  // Import Link from React Router
 import './Registration.css';
 import secureTax from '../assets/SecureTax.png';  // Importing the icon for Questionnaire
+import LoadingModal from '../components/LoadingModal'; // Import the modal component
 
 export default function Registration() {
   const { register } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // Status to show loading
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -19,11 +21,15 @@ export default function Registration() {
 
   const registerUser = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await register(data);
+    setLoading(false); 
   };
 
   return (
     <div className="registration-container">
+      {/* loading modal */}
+      <LoadingModal loading={loading} />
       <div className="image-section">
         {/* Background image is set in CSS */}
       </div>
