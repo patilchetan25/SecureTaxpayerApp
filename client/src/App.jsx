@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar'; // Assuming Navbar is your header
+import Navbar from './pages/Navbar'; // Assuming Navbar is your header
 import Dashboard from './pages/Dashboard';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
