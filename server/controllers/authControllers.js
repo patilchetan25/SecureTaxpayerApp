@@ -43,7 +43,7 @@ const upload = multer({
 
 
 const registerUser = async (req, res) => {
-    const { firstName,lastName, email, password } = req.body;
+    const { firstName,lastName, email, password, confirmPassword } = req.body;
     try {
         
         //check if name is entered
@@ -53,6 +53,11 @@ const registerUser = async (req, res) => {
         if (!lastName) {
             return res.json({ error: "Last Name is required" })
         }
+
+        if(password != confirmPassword){
+            return res.json({error: "Passwords do not match"})
+        }
+
         if (!password || password.length < 6) {
             return res.json({ error: "Password required and must be at least 6 characters long" })
         }
