@@ -18,9 +18,30 @@ export default function Registration() {
     password: "",
     confirmPassword: ""
   });
+  const [passwordError, setPasswordError] = useState("");
+
+  // Function to validate strong password
+  const validatePassword = (password) => {
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordPattern.test(password);
+  };
 
   const registerUser = async (e) => {
     e.preventDefault();
+    
+    // Check password strength
+    if (!validatePassword(data.password)) {
+      setPasswordError("Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.");
+      return;
+    }
+
+    // Check if passwords match
+    if (data.password !== data.confirmPassword) {
+      setPasswordError("Passwords do not match.");
+      return;
+    }
+
+    setPasswordError(""); // Clear error if all is good
     setLoading(true);
     await register(data);
     setLoading(false); 
@@ -35,7 +56,7 @@ export default function Registration() {
       </div>
       <div className="form-section">
         <div className="registration-box">
-        <img src={secureTax}></img>
+          <img src={secureTax} alt="Secure Tax" />
           <h4>Create Your Account</h4>
           <form onSubmit={registerUser}>
             <div className="input-group">
@@ -93,6 +114,10 @@ export default function Registration() {
                 required
               />
             </div>
+
+            {/* Show password error message */}
+            {passwordError && <div className="error-message">{passwordError}</div>}
+
             <button type="submit">Register</button>
           </form>
 
