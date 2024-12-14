@@ -1,5 +1,6 @@
 // services/userService.js
 import axios from 'axios';
+import { encryptRequestBody } from '../Services/encryption.service'
 
 // Function to get the list of users
 export const getUsers = async () => {
@@ -15,7 +16,10 @@ export const getUsers = async () => {
 
 export const updateUser = async (id, updatedData) => {
     try {
-        const response = await axios.put(`/updateUser/${id}`, updatedData);
+        const encryptedData = encryptRequestBody(updatedData);
+        const aesKey = encryptedData.aesKey;
+        delete encryptedData.aesKey
+        const response = await axios.put(`/updateUser/${id}`, encryptedData);
         return response.data; // Returns the data obtained
     } catch (error) {
         console.error("Error updating user:", error);
@@ -43,14 +47,14 @@ export const downloadFile = async (userEmail, filename, originalname) => {
 
         // Create a temporary link for download
         const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', originalname);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', originalname);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
 
-            window.URL.revokeObjectURL(url);
+        window.URL.revokeObjectURL(url);
 
     } catch (error) {
         console.error('Error downloading file:', error);

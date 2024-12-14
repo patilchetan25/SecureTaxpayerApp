@@ -14,7 +14,7 @@ const Dashboard = () => {
       {/* Welcome Section */}
       <div className="welcome-section">
         <h3>Welcome, <span className="client-name">{userInfo.firstName} {userInfo.lastName}!</span></h3>
-        <p>You are now connected to Secure Taxpayer Application</p>
+        <p>You are now connected to Secure Tax</p>
         <p className="fw-bold">Let's get started!</p>
       </div>
 
